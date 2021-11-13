@@ -1,11 +1,9 @@
 package server;
 
-
-import java.util.Date;
-
 public class LogRow {
     private String date;
     private String message;
+    private MessageType messageType;
 
     public String getDate() {
         return date;
@@ -31,7 +29,6 @@ public class LogRow {
         this.messageType = messageType;
     }
 
-    private MessageType messageType;
     public LogRow(String date, String message, MessageType messageType){
         this.date = date;
         this.message = message;
