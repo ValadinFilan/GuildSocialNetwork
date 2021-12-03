@@ -4,37 +4,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Authorization extends JDialog
+public class Authorization extends JPanel
 {
     private static final long serialVersionUID = 1L;
-
-    public JTextField tfLogin, tfPassword;
-    public JButton    btnOk, btnCancel, btnRegister;
-
-    public Authorization(JFrame parent)
+    private Authorization mainPanel = this;
+    private JTextField tfLogin, tfPassword;
+    private JButton    btnOk, btnCancel, btnRegister;
+    private Registration registration;
+    JFrame parentFrame;
+    public Authorization(JFrame parentFrame, Registration registration)
     {
-        super(parent, "Sign in");
-        // При выходе из диалогового окна работа заканчивается
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent we) {
-                dispose();
-                System.exit(0);
-            }
-        });
-        // добавляем расположение в центр окна
-        getContentPane().add(createGUI());
-        // задаем предпочтительный размер
-        pack();
-        // выводим окно на экран
-        setVisible(true);
+        super();
+        this.parentFrame = parentFrame;
+        this.registration = registration;
+        createGUI();
     }
-    // этот метод будет возвращать панель с созданным расположением
-    private JPanel createGUI()
+    private void createGUI()
     {
-        // Создание панели для размещение компонентов
-        JPanel panel = BoxLayoutUtils.createVerticalPanel();
-        // Определение отступов от границ ранели. Для этого используем пустую рамку
-        panel.setBorder (BorderFactory.createEmptyBorder(12,12,12,12));
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        setBorder(BorderFactory.createEmptyBorder(12,12,12,12));
         // Создание панели для размещения метки и текстового поля логина
         JPanel name = BoxLayoutUtils.createHorizontalPanel();
         JLabel nameLabel = new JLabel("Login:");
@@ -44,8 +33,8 @@ public class Authorization extends JDialog
         name.add(tfLogin);
         // Создание панели для размещения метки и текстового поля пароля
         JPanel password = BoxLayoutUtils.createHorizontalPanel();
-        JLabel passwrdLabel = new JLabel("Password:");
-        password.add(passwrdLabel);
+        JLabel passwordLabel = new JLabel("Password:");
+        password.add(passwordLabel);
         password.add(Box.createHorizontalStrut(12));
         tfPassword = new JTextField(15);
         password.add(tfPassword);
@@ -59,6 +48,7 @@ public class Authorization extends JDialog
         btnOk.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                /*HERE WILL BE AUTHORISATION REQUEST*/
                 System.out.println("Autho: " + tfLogin.getText());
                 System.out.println("Autho: " + tfPassword.getText());
             }
@@ -67,37 +57,49 @@ public class Authorization extends JDialog
         btnRegister.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                dispose();
-                new Registration(new JFrame());
+                mainPanel.setVisible(false);
+                if(registration != null)
+                    registration.setVisible(true);
             }
         });
         grid.add(btnRegister);
-        grid.add(btnOk    );
+        grid.add(btnOk);
         flow.add(grid);
         // Выравнивание вложенных панелей по горизонтали
-        BoxLayoutUtils.setGroupAlignmentX(new JComponent[] { name, password, infoLabel, panel, flow },
+        BoxLayoutUtils.setGroupAlignmentX(new JComponent[] { name, password, infoLabel, this, flow },
                 Component.LEFT_ALIGNMENT);
         // Выравнивание вложенных панелей по вертикали
-        BoxLayoutUtils.setGroupAlignmentY(new JComponent[] { tfLogin, tfPassword, nameLabel, passwrdLabel},
+        BoxLayoutUtils.setGroupAlignmentY(new JComponent[] { tfLogin, tfPassword, nameLabel, passwordLabel},
                 Component.CENTER_ALIGNMENT);
         // Определение размеров надписей к текстовым полям
-        GUITools.makeSameSize(new JComponent[] { nameLabel, passwrdLabel } );
+        GUITools.makeSameSize(new JComponent[] { nameLabel, passwordLabel } );
         // Определение стандартного вида для кнопок
         GUITools.createRecommendedMargin(new JButton[] { btnOk, btnRegister } );
         // Устранение "бесконечной" высоты текстовых полей
-        GUITools.fixTextFieldSize(tfLogin   );
+        GUITools.fixTextFieldSize(tfLogin);
         GUITools.fixTextFieldSize(tfPassword);
 
         // Сборка интерфейса
-        panel.add(name);
-        panel.add(Box.createVerticalStrut(12));
-        panel.add(password);
-        panel.add(Box.createVerticalStrut(17));
-        panel.add(infoLabel);
-        panel.add(Box.createVerticalStrut(17));
-        panel.add(flow);
-        panel.setBackground(Color.getHSBColor(.45F,.25f,.61f));
-        // готово
-        return panel;
+        add(name);
+        add(Box.createVerticalStrut(12));
+        add(password);
+        add(Box.createVerticalStrut(17));
+        add(infoLabel);
+        add(Box.createVerticalStrut(17));
+        add(flow);
+        setBackground(Color.getHSBColor(.45F,.25f,.61f));
+    }
+
+    @Override
+    public void setVisible(boolean aFlag) {
+        super.setVisible(aFlag);
+        if(aFlag) {
+            parentFrame.setSize(getWidth() + 15, getHeight() + 50);
+            parentFrame.repaint();
+        }
+    }
+
+    public void setRegistration(Registration registration) {
+        this.registration = registration;
     }
 }

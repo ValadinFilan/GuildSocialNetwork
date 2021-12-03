@@ -14,7 +14,6 @@ public class Main {
         System.out.println(C.ReadDialog("002"));
         FileSystem.Message M = new FileSystem.Message("23:50", 1, "444");
         C.WriteDialog(M, "002");*/
-        new Authorization(new JFrame());
         /*FileSystem.Server_FileSystem Server = new FileSystem.Server_FileSystem();
         ArrayList<FileSystem.Dialog> dialogs = new ArrayList<FileSystem.Dialog>();
         FileSystem.UserInfo[] U = {new FileSystem.UserInfo("IGOR", 1), new FileSystem.UserInfo("VALERA", 2)};
