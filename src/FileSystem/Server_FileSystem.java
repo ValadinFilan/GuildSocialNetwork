@@ -164,7 +164,7 @@ public class Server_FileSystem {
     } //read message, time = FileSystem.Message from FileSystem.Dialog ID
 
     public void CreateDialog(Dialog D) throws IOException {
-        FileWriter out = new FileWriter("sources_server/" + String.valueOf(D.DialogID) + ".txt", true);
+        FileWriter out = new FileWriter("sources_server/" + String.valueOf(D.getDialogID()) + ".txt", true);
         out.close();
         FileWriter Dialogs_info = new FileWriter(Dialog_info, true);
         gson.toJson(D, Dialogs_info);
