@@ -1,4 +1,4 @@
-package Authorization;
+package client.Authorization;
 
 import javax.swing.*;
 
