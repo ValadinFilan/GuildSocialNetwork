@@ -1,19 +1,19 @@
-package Authorization;
+package client.Authorization;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Authorization extends JDialog
+public class Registration extends JDialog
 {
     private static final long serialVersionUID = 1L;
 
     public JTextField tfLogin, tfPassword;
-    public JButton    btnOk, btnCancel, btnRegister;
+    public JButton    btnOk, btnCancel, btnAuthorization;
 
-    public Authorization(JFrame parent)
+    public Registration(JFrame parent)
     {
-        super(parent, "Sign in");
+        super(parent, "Sign up");
         // При выходе из диалогового окна работа заканчивается
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent we) {
@@ -50,7 +50,7 @@ public class Authorization extends JDialog
         tfPassword = new JTextField(15);
         password.add(tfPassword);
         // Создание label для размещения информации
-        JLabel infoLabel = new JLabel(">_<>_<>_<>_<>_<>_<>_<>_<>_<>_<>_<>_<");
+        JLabel infoLabel = new JLabel(">~<>~<>~<>~<>~<>~<>~<>~<>~<>~<>~<>~<>~<>~<");
         infoLabel.add(Box.createHorizontalStrut(12));
         // Создание панели для размещения кнопок управления
         JPanel flow = new JPanel( new FlowLayout( FlowLayout.RIGHT, 0, 0) );
@@ -59,31 +59,31 @@ public class Authorization extends JDialog
         btnOk.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Autho: " + tfLogin.getText());
-                System.out.println("Autho: " + tfPassword.getText());
+                System.out.println("Register: " + tfLogin.getText());
+                System.out.println("Register: " + tfPassword.getText());
             }
         });
-        btnRegister = new JButton("Sign up");
-        btnRegister.addActionListener(new ActionListener() {
+        btnAuthorization = new JButton("Sign in");
+        btnAuthorization.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 dispose();
-                new Registration(new JFrame());
+                new Authorization(new JFrame());
             }
         });
-        grid.add(btnRegister);
+        grid.add(btnAuthorization);
         grid.add(btnOk    );
         flow.add(grid);
         // Выравнивание вложенных панелей по горизонтали
-        BoxLayoutUtils.setGroupAlignmentX(new JComponent[] { name, password, infoLabel, panel, flow },
+        BoxLayoutUtils.setGroupAlignmentX(new JComponent[] { name, password, panel, flow },
                 Component.LEFT_ALIGNMENT);
         // Выравнивание вложенных панелей по вертикали
-        BoxLayoutUtils.setGroupAlignmentY(new JComponent[] { tfLogin, tfPassword, nameLabel, passwrdLabel},
+        BoxLayoutUtils.setGroupAlignmentY(new JComponent[] { tfLogin, tfPassword, nameLabel, passwrdLabel },
                 Component.CENTER_ALIGNMENT);
         // Определение размеров надписей к текстовым полям
         GUITools.makeSameSize(new JComponent[] { nameLabel, passwrdLabel } );
         // Определение стандартного вида для кнопок
-        GUITools.createRecommendedMargin(new JButton[] { btnOk, btnRegister } );
+        GUITools.createRecommendedMargin(new JButton[] { btnOk, btnAuthorization } );
         // Устранение "бесконечной" высоты текстовых полей
         GUITools.fixTextFieldSize(tfLogin   );
         GUITools.fixTextFieldSize(tfPassword);

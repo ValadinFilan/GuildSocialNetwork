@@ -1,6 +1,6 @@
 package FileSystem;
 
-import Authorization.Authorization;
+import client.Authorization.Authorization;
 
 import javax.swing.*;
 import java.io.IOException;
