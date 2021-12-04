@@ -91,10 +91,10 @@ public class Server {
                 return 0;
             }
             else if(Objects.equals(data[0], "FS_Check")){
-                reqManager.LOAD_MSG("Igor", 1, "22:01");
-                ansManager.Handle("{\"Type\":\"LOAD_MSG\",\"Username\":\"Igor\",\"DialogID\":\"1\",\"MessageTime\":\"22:01\"}");
-                reqManager.SEND_MSG(new Message("23:50", 1, "22:01"), 1);
-                ansManager.Handle("{\"Type\":\"SEND_MSG\",\"Message\":{\"Time\":\"23:50\",\"UserID\":1,\"Text\":\"22:01\"},\"DialogID\":1}");
+                reqManager.LOAD_MSG("Igor", 1);
+                ansManager.Handle("{\"Type\":\"LOAD_MSG\",\"Username\":\"Igor\",\"DialogID\":\"1\",\"MessageTime\":\"NULL\"}");
+                //reqManager.SEND_MSG(new Message("23:50", 1, "22:01"), 1);
+                //ansManager.Handle("{\"Type\":\"SEND_MSG\",\"Message\":{\"Time\":\"23:50\",\"UserID\":1,\"Text\":\"22:01\"},\"DialogID\":1}");
                 return 0;
             }
             // недописаный кусок

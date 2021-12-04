@@ -6,11 +6,11 @@ import java.io.*;
 
 public class Server_FileSystem {
     private class Stream_info{
-        Stream_info(String id, ReverseLineInputStream str){
+        Stream_info(int id, ReverseLineInputStream str){
             ID = id;
             FIS = str;
         }
-        String ID;
+        int ID;
         ReverseLineInputStream FIS;
     }
     Stream_info[] Streams; // 4 streams for dialogs
@@ -33,7 +33,7 @@ public class Server_FileSystem {
         out.close();
     }
 
-    public Message ReadDialog(String ID) throws IOException {
+    public Message ReadDialog(int ID) throws IOException {
         int c;
         String Result = "";
         Stream_info Stream = null;
@@ -60,7 +60,7 @@ public class Server_FileSystem {
         }
         if(c == -1){
             Stream.FIS.close();
-            Stream.ID = "";
+            Stream.ID = 0;
             return null;
         }
         else {
@@ -70,7 +70,7 @@ public class Server_FileSystem {
         }
     } //read last message from FileSystem.Dialog ID
 
-    public Message ReadDialog(String ID, String Last_msg_time) throws IOException {
+    public Message ReadDialog(int ID, String Last_msg_time) throws IOException {
         int c;
         String Result = "";
         Stream_info Stream = null;
@@ -105,7 +105,7 @@ public class Server_FileSystem {
         }
         if(c == -1){
             Stream.FIS.close();
-            Stream.ID = "";
+            Stream.ID = 0;
             return null;
         }
         else {
@@ -115,7 +115,7 @@ public class Server_FileSystem {
         }
     }  //read message before time = Last_msg_time from FileSystem.Dialog ID
 
-    public Message ReadDialogByTime(String ID, String Msg_time) throws IOException {
+    public Message ReadDialogByTime(int ID, String Msg_time) throws IOException {
         int c;
         String Result = "";
         Stream_info Stream = null;
@@ -149,7 +149,7 @@ public class Server_FileSystem {
         }
         if(c == -1){
             Stream.FIS.close();
-            Stream.ID = "";
+            Stream.ID = 0;
             return null;
         }
         else {
