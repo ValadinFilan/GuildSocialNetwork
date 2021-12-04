@@ -72,9 +72,7 @@ public class Server {
                 return 0;
             }
             if(Objects.equals(data[0], "FS_AddUser")){
-                ArrayList<Dialog> dialogs = new ArrayList<Dialog>();
-                User USER = new User("Igor", 1, "hiinomaru", "1234567890", dialogs); //create user
-                serverFileSystem.AddUser(USER); // add user in list
+                serverFileSystem.AddUser("Igor", "hiinomaru", "1234567890"); // add user in list
                 logManager.sendLogToConsole(logManager.createNewLog("User added", MessageType.SUCCESS));
                 return 0;
             }
@@ -96,6 +94,18 @@ public class Server {
                 String T = sc.nextLine();
                 int ID = sc.nextInt();
                 ansManager.Handle(reqManager.LOAD_MSG(U, ID, T));
+                //ansManager.Handle(reqManager.SEND_MSG(new Message("23:50", 1, "3 Topora"), 1));
+                return 0;
+            }
+            else if(Objects.equals(data[0], "FS_Check_REG_USER")){
+                logManager.sendLogToConsole(logManager.createNewLog("Check RegUser", MessageType.SUCCESS));
+                ansManager.Handle(reqManager.REG_USER("Valera", "11111111"));
+                //ansManager.Handle(reqManager.SEND_MSG(new Message("23:50", 1, "3 Topora"), 1));
+                return 0;
+            }
+            else if(Objects.equals(data[0], "FS_Check_AUTH_USER")){
+                logManager.sendLogToConsole(logManager.createNewLog("Check RegUser", MessageType.SUCCESS));
+                ansManager.Handle(reqManager.AUTH_USER("Valera", "11111111"));
                 //ansManager.Handle(reqManager.SEND_MSG(new Message("23:50", 1, "3 Topora"), 1));
                 return 0;
             }

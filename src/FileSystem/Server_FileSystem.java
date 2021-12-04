@@ -3,6 +3,8 @@ package FileSystem;
 import com.google.gson.Gson;
 
 import java.io.*;
+import java.time.temporal.TemporalAdjuster;
+import java.util.ArrayList;
 
 public class Server_FileSystem {
     private class Stream_info{
@@ -15,13 +17,37 @@ public class Server_FileSystem {
     }
     Stream_info[] Streams; // 4 streams for dialogs
     int OldStream;
+    int lastRegUserID = 1;
     Gson gson = new Gson();
 
-    public void AddUser(User user) throws IOException {
+    public void AddUser(String name, String login, String password) throws IOException {
+        ArrayList<Dialog> dialogs = new ArrayList<Dialog>();
+        lastRegUserID += 1;
+        User user = new User(name, lastRegUserID, login, password, dialogs);
         FileWriter Users_info = new FileWriter("sources_server/Users_info.txt", true);
         gson.toJson(user, Users_info);
         Users_info.write("\n");
         Users_info.close();
+    }
+
+    public String FindUser(String login) throws IOException {
+        FileInputStream FIS = new FileInputStream(new File("sources_server/Users_info.txt"));
+        String User = "";
+        int c;
+        while(true){
+            while(((c=FIS.read())!= -1) && (c != 125)){
+                User += (char)c;
+            }
+            User += '}';
+            User U = gson.fromJson(User, User.class);
+            if((U.getLogin()).equals(login)){
+                return U.getPassword();
+            }
+            User = "";
+            if (c == -1) break;
+        }
+        FIS.close();
+        return "null";
     }
 
     public Server_FileSystem() throws IOException {
@@ -31,6 +57,25 @@ public class Server_FileSystem {
         out.close();
         out = new FileWriter("sources_server/Users_info.txt", true);
         out.close();
+        FileInputStream FIS = new FileInputStream(new File("sources_server/Users_info.txt"));
+        int c = 0;
+        String User = "";
+        int max = 0;
+        while(true){
+            while(((c=FIS.read())!= -1) && (c != 125)){
+                User += (char)c;
+            }
+            try{
+                max = Integer.valueOf(User.substring(User.indexOf(':') +1 , User.indexOf(',')));
+            }
+            catch (Exception e){}
+            if (lastRegUserID < max) {
+                lastRegUserID = max;
+            }
+            User = "";
+            if (c == -1) break;
+        }
+        FIS.close();
     }
 
     public Message ReadDialog(int ID) throws IOException {
