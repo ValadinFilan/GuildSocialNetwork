@@ -3,7 +3,7 @@ package FileSystem;
 import java.util.ArrayList;
 
 public class User {
-    User(String name, int id, String login, String password, ArrayList<Dialog> dialogs){
+    public User(String name, int id, String login, String password, ArrayList<Dialog> dialogs){
         Name = name;
         ID = id;
         Login = login;

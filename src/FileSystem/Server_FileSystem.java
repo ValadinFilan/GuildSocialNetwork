@@ -16,11 +16,9 @@ public class Server_FileSystem {
     Stream_info[] Streams; // 4 streams for dialogs
     int OldStream;
     Gson gson = new Gson();
-    File Dialog_info;
-    File User_info;
 
     public void AddUser(User user) throws IOException {
-        FileWriter Users_info = new FileWriter(User_info, true);
+        FileWriter Users_info = new FileWriter("sources_server/Users_info.txt", true);
         gson.toJson(user, Users_info);
         Users_info.write("\n");
         Users_info.close();
@@ -29,11 +27,9 @@ public class Server_FileSystem {
     public Server_FileSystem() throws IOException {
         Streams = new Stream_info[3]; // 4 streams for dialogs
         OldStream = 0;
-        Dialog_info = new File("sources_server/Dialogs_info.txt");
-        User_info = new File("sources_server/Users_info.txt");
-        FileWriter out = new FileWriter(Dialog_info, true);
+        FileWriter out = new FileWriter("sources_server/Dialogs_info.txt", true);
         out.close();
-        out = new FileWriter(User_info, true);
+        out = new FileWriter("sources_server/Users_info.txt", true);
         out.close();
     }
 
@@ -164,15 +160,15 @@ public class Server_FileSystem {
     } //read message, time = FileSystem.Message from FileSystem.Dialog ID
 
     public void CreateDialog(Dialog D) throws IOException {
-        FileWriter out = new FileWriter("sources_server/" + String.valueOf(D.DialogID) + ".txt", true);
+        FileWriter out = new FileWriter("sources_server/" + String.valueOf(D.getDialogID()) + ".txt", true);
         out.close();
-        FileWriter Dialogs_info = new FileWriter(Dialog_info, true);
+        FileWriter Dialogs_info = new FileWriter("sources_server/Dialogs_info.txt", true);
         gson.toJson(D, Dialogs_info);
         Dialogs_info.write("\n");
         Dialogs_info.close();
     } // ..
 
-    public void WriteDialog(Message M, String ID) throws IOException {
+    public void WriteDialog(Message M, int ID) throws IOException {
         FileWriter out = new FileWriter("sources_server/" + ID + ".txt", true);
         gson.toJson(M, out);
         out.write("\n");
