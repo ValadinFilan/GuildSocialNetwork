@@ -87,14 +87,16 @@ public class Server {
             }
             else if(Objects.equals(data[0], "FS_WriteDialog")){
                 Message M = new Message("23:50", 1, "4 Tuza");
-                serverFileSystem.WriteDialog(M, 1);// add dialog in list
+                //serverFileSystem.WriteDialog(M, 1);// add dialog in list
                 return 0;
             }
-            else if(Objects.equals(data[0], "FS_Check")){
-                reqManager.LOAD_MSG("Igor", 1);
-                ansManager.Handle("{\"Type\":\"LOAD_MSG\",\"Username\":\"Igor\",\"DialogID\":\"1\",\"MessageTime\":\"NULL\"}");
-                //reqManager.SEND_MSG(new Message("23:50", 1, "22:01"), 1);
-                //ansManager.Handle("{\"Type\":\"SEND_MSG\",\"Message\":{\"Time\":\"23:50\",\"UserID\":1,\"Text\":\"22:01\"},\"DialogID\":1}");
+            else if(Objects.equals(data[0], "FS_Check_LOAD_MSG")){
+                logManager.sendLogToConsole(logManager.createNewLog("Input Username, LastMsgTime, DialogID", MessageType.SUCCESS));
+                String U = sc.nextLine();
+                String T = sc.nextLine();
+                int ID = sc.nextInt();
+                ansManager.Handle(reqManager.LOAD_MSG(U, ID, T));
+                //ansManager.Handle(reqManager.SEND_MSG(new Message("23:50", 1, "3 Topora"), 1));
                 return 0;
             }
             // недописаный кусок
