@@ -3,6 +3,12 @@ package FileSystem;
 import java.util.ArrayList;
 
 public class User {
+    int ID;
+    String Name;
+    String Login;
+    String Password;
+    ArrayList<Dialog> Dialogs;
+
     public User(String name, int id, String login, String password, ArrayList<Dialog> dialogs){
         ID = id;
         Name = name;
@@ -42,13 +48,7 @@ public class User {
         Password = password;
     }
 
-    int ID;
-    String Name;
-    String Login;
-    String Password;
-    ArrayList<Dialog> Dialogs;
-
-    void AddDialog(Dialog D){
+    public void AddDialog(Dialog D){
         Dialogs.add(D);
     }
 }

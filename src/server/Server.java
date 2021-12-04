@@ -8,7 +8,6 @@ import java.nio.file.FileSystem;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.ArrayList;
 
 public class Server {
     private Scanner sc;
@@ -77,9 +76,7 @@ public class Server {
                 return 0;
             }
             else if(Objects.equals(data[0], "FS_CreateDialog")){
-                UserInfo[] U = {new UserInfo("IGOR", 1), new UserInfo("VALERA", 2)};
-                Dialog D = new Dialog("Messages", 001, U);
-                serverFileSystem.CreateDialog(D);// add dialog in list
+                serverFileSystem.CreateDialog("User1", "User2");// add dialog in list
                 logManager.sendLogToConsole(logManager.createNewLog("Dialog added", MessageType.SUCCESS));
                 return 0;
             }
@@ -94,22 +91,33 @@ public class Server {
                 String T = sc.nextLine();
                 int ID = sc.nextInt();
                 ansManager.Handle(reqManager.LOAD_MSG(U, ID, T));
-                //ansManager.Handle(reqManager.SEND_MSG(new Message("23:50", 1, "3 Topora"), 1));
+                return 0;
+            }
+            else if(Objects.equals(data[0], "FS_Check_SEND_MSG")){
+                logManager.sendLogToConsole(logManager.createNewLog("SEND_MSG", MessageType.SUCCESS));
+                ansManager.Handle(reqManager.SEND_MSG(new Message("23:50", 1, "3 Topora"), 1));
                 return 0;
             }
             else if(Objects.equals(data[0], "FS_Check_REG_USER")){
                 logManager.sendLogToConsole(logManager.createNewLog("Check RegUser", MessageType.SUCCESS));
                 ansManager.Handle(reqManager.REG_USER("Valera", "11111111"));
-                //ansManager.Handle(reqManager.SEND_MSG(new Message("23:50", 1, "3 Topora"), 1));
                 return 0;
             }
             else if(Objects.equals(data[0], "FS_Check_AUTH_USER")){
                 logManager.sendLogToConsole(logManager.createNewLog("Check RegUser", MessageType.SUCCESS));
                 ansManager.Handle(reqManager.AUTH_USER("Valera", "11111111"));
-                //ansManager.Handle(reqManager.SEND_MSG(new Message("23:50", 1, "3 Topora"), 1));
                 return 0;
             }
-            // недописаный кусок
+            else if(Objects.equals(data[0], "FS_Check_NEW_DIAl")){
+                logManager.sendLogToConsole(logManager.createNewLog("Make new dialog", MessageType.SUCCESS));
+                ansManager.Handle(reqManager.NEW_DIAL("Valera", "Igor"));
+                return 0;
+            }
+            else if(Objects.equals(data[0], "FS_Check_GET_DIAl")){
+                logManager.sendLogToConsole(logManager.createNewLog("Get dialogs", MessageType.SUCCESS));
+                ansManager.Handle(reqManager.GET_DIAL("Igor"));
+                return 0;
+            }
             if(Objects.equals(data[0].toLowerCase(Locale.ROOT), "exit")) return -1;
             throw new Exception();
         }catch (Exception e){
