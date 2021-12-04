@@ -18,7 +18,7 @@ public class GUI extends JFrame {
         add(registration);
         setVisible(true);
         authorization.setVisible(true);
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBackground(Color.getHSBColor(.45F,.25f,.61f));
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 }
