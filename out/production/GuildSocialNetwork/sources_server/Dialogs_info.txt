@@ -1,0 +1,4 @@
+{"Dialog_name":"0","DialogID":1,"Dialog_members":["User1","User2"]}
+{"Dialog_name":"0","DialogID":2,"Dialog_members":["Valera","Igor"]}
+{"Dialog_name":"0","DialogID":3,"Dialog_members":["Valera","User2"]}
+{"Dialog_name":"0","DialogID":4,"Dialog_members":["Valera","Igor"]}
