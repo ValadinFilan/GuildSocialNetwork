@@ -1,0 +1,2 @@
+{"ID":0,"Name":"Igor","Login":"hiinomaru","Password":"1234567890","Dialogs":[]}
+{"ID":1,"Name":"0","Login":"Valera","Password":"11111111","Dialogs":[]}
