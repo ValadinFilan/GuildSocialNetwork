@@ -34,4 +34,20 @@ public class Dialog {
         DialogID = DID;
         Dialog_members = Users;
     }
+
+    public boolean IsInMembers(String S){
+        for(String x : Dialog_members){
+            if(x.equals(S)){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    String[] Dialog_members;
+    public Dialog(String DName, int DID, String[] Users){
+        Dialog_name = DName;
+        DialogID = DID;
+        Dialog_members = Users;
+    }
 }
