@@ -71,12 +71,12 @@ public class Server {
                 return 0;
             }
             if(Objects.equals(data[0], "FS_AddUser")){
-                serverFileSystem.AddUser("Igor", "hiinomaru", "1234567890"); // add user in list
+                //serverFileSystem.AddUser("Igor", "hiinomaru", "1234567890"); // add user in list
                 logManager.sendLogToConsole(logManager.createNewLog("User added", MessageType.SUCCESS));
                 return 0;
             }
             else if(Objects.equals(data[0], "FS_CreateDialog")){
-                serverFileSystem.CreateDialog("User1", "User2");// add dialog in list
+                //serverFileSystem.CreateDialog("User1", "User2");// add dialog in list
                 logManager.sendLogToConsole(logManager.createNewLog("Dialog added", MessageType.SUCCESS));
                 return 0;
             }
