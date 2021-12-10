@@ -3,10 +3,32 @@ package QueryManager;
 import FileSystem.Message;
 import com.google.gson.Gson;
 
+import java.io.*;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
 
 public class RequestManager {
 
     private Gson gson = new Gson();
+    Socket socket;
+    //BufferedReader br;
+    DataOutputStream oos;
+    DataInputStream ois;
+
+    public RequestManager(){
+        try{
+            socket = new Socket("10.192.213.170", 3345);
+            //br = new BufferedReader(new InputStreamReader(System.in));
+            oos = new DataOutputStream(socket.getOutputStream());
+            ois = new DataInputStream(socket.getInputStream());
+            System.out.println("Client connected to socket.");
+            System.out.println();
+            System.out.println("Client writing channel = oos & reading channel = ois initialized.");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public String LOAD_MSG(String Username, int DialogID, String MessageTime) {
         String Request = "{\"Type\":\"LOAD_MSG\"," + "\"Username\":\"" + Username +"\"," +
@@ -20,13 +42,27 @@ public class RequestManager {
         String Request = "{\"Type\":\"LOAD_MSG\"," + "\"Username\":\"" + Username +"\"," +
                 "\"DialogID\":\"" + DialogID +"\"," + "\"MessageTime\":\"" + "NULL" + "\"}";
         Message M = new Message("20:20", 1, "Hello"); // some message
-        /*
-        *
-        *
-        * ПОТОКИ
-        *
-        * */
-        //System.out.println(Request);
+
+        if(!socket.isInputShutdown()){
+            try {
+                oos.writeUTF(Request);
+                oos.flush();
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if(ois.read() > -1)     {
+                    System.out.println("reading...");
+                    String data = ois.readUTF();
+                    System.out.println(data);
+                    M = gson.fromJson(data, Message.class);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            }
+        }
         return M; // return result
     }
 

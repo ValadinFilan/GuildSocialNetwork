@@ -2,8 +2,13 @@ package server;
 
 import FileSystem.*;
 import QueryManager.*;
+import com.google.gson.Gson;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
@@ -27,9 +32,39 @@ public class Server {
         sc = new Scanner(System.in);
 
         print("Server successfully started", MessageType.SUCCESS);
-
+        /*
         while (ListenCommand() != -1){
+        }*/
+
+        try (ServerSocket server= new ServerSocket(3345)){
+            Socket client = server.accept();
+            logManager.createNewLog("Connection accepted.", MessageType.WARNING);
+
+            DataOutputStream out = new DataOutputStream(client.getOutputStream());
+            DataInputStream in = new DataInputStream(client.getInputStream());
+            System.out.println("DataInputStream created");
+            while(!client.isClosed()){
+                logManager.createNewLog("Ready.", MessageType.SUCCESS);
+
+                String entry = in.readUTF();
+                logManager.createNewLog("Request: " + entry, MessageType.WARNING);
+
+                ansManager.Handle(entry);
+                if(entry.equalsIgnoreCase("quit")){
+                    Message M = new Message("20:20", 1, "SERVER IS HEARING YOU");
+                    out.writeUTF((new Gson()).toJson(M));
+                    out.flush();
+                    Thread.sleep(1000);
+                    break;
+                }
+            }
+            in.close();
+            out.close();
+            client.close();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
         }
+
     }
     public void print(String message, MessageType type){
         String textColorMarker = "\u001B[30m";
