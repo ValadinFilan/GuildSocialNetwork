@@ -1,4 +1,4 @@
-package RequestManager;
+package QueryManager;
 
 import FileSystem.Message;
 import com.google.gson.Gson;
@@ -16,12 +16,18 @@ public class RequestManager {
         return Request; // return result
     }
 
-    public String LOAD_MSG(String Username, int DialogID) {
+    public Message LOAD_MSG(String Username, int DialogID) {
         String Request = "{\"Type\":\"LOAD_MSG\"," + "\"Username\":\"" + Username +"\"," +
                 "\"DialogID\":\"" + DialogID +"\"," + "\"MessageTime\":\"" + "NULL" + "\"}";
         Message M = new Message("20:20", 1, "Hello"); // some message
+        /*
+        *
+        *
+        * ПОТОКИ
+        *
+        * */
         //System.out.println(Request);
-        return Request; // return result
+        return M; // return result
     }
 
     public String SEND_MSG(Message Message, int DialogID){

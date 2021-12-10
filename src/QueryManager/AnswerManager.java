@@ -1,6 +1,5 @@
-package RequestManager;
+package QueryManager;
 
-import FileSystem.Dialog;
 import FileSystem.Message;
 import FileSystem.Server_FileSystem;
 import com.google.gson.Gson;

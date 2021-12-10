@@ -1,14 +1,24 @@
 package client.Dialogs;
 
+import FileSystem.Message;
+import FileSystem.Client_FileSystem;
+import QueryManager.AnswerManager;
+import QueryManager.RequestManager;
+import com.google.gson.Gson;
+
 import javax.swing.*;
-import javax.xml.soap.Text;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.nio.file.FileSystem;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DialogPanel extends JPanel {
+    int dialogID, userId, thisUserId;
+    String userName;
+    QueryManager.RequestManager requestManager = new RequestManager();
     JPanel p;
     JScrollPane pane;
     DialogManagerPanel managerPanel;
@@ -33,7 +43,9 @@ public class DialogPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!textField.getText().trim().equals("")) {
-                    newMessage(textField.getText(), (new SimpleDateFormat("hh:mm")).format(new Date()), true);
+                    Message message = new Message((new SimpleDateFormat("hh:mm")).format(new Date()), userId, textField.getText());
+                    newMessage(message, true);
+                    requestManager.SEND_MSG(message, dialogID);
                     textField.setText("Введите сообщение");
                 }
             }
@@ -42,9 +54,15 @@ public class DialogPanel extends JPanel {
         footer.add(textField);
         footer.add(send);
         add(footer, BorderLayout.SOUTH);
+        Message m = requestManager.LOAD_MSG(userName, dialogID);
+        while(m != null){
+            newMessage(m, m.getUserID() == thisUserId);
+            m = requestManager.LOAD_MSG(userName, dialogID);
+            break;
+        }
     }
-    public void newMessage(String text, String Time, boolean right){
-        MessagePanel mp = new MessagePanel(0, 0, 300, 50, right, text, Time);
+    public void newMessage(Message message, boolean right){
+        MessagePanel mp = new MessagePanel(0, 0, 300, 50, right, message.getText(), message.getTime());
         p.add(mp, BorderLayout.CENTER);
         pane.getVerticalScrollBar().setValue(pane.getVerticalScrollBar().getModel().getMaximum());
         repaint();
