@@ -22,11 +22,11 @@ public class Client_FileSystem {
 
     public String getPassword() {
         return Password;
-    }
+    } //Получить пароль
 
     public void setPassword(String password) {
         Password = password;
-    }
+    } //Установаить пароль
 
     public String getLogin() {
         return Login;
@@ -39,15 +39,15 @@ public class Client_FileSystem {
     public void Clear_Authorization_info(){
         Login = null;
         Password = null;
-    }
+    } //Удаляем информацию об авторизации
 
     public Client_FileSystem() throws IOException {
-        Streams = new Stream_info[3]; // 4 streams for dialogs
+        Streams = new Stream_info[4]; // 4 streams for dialogs
         OldStream = 0;
         Dialog_info = new File("sources/Dialogs_info.txt");
-        FileWriter Dialogs_info = new FileWriter(Dialog_info, true);
+        FileWriter Dialogs_info = new FileWriter(Dialog_info, true); //Создаем новый файл диалогов
         Dialogs_info.close();
-    }
+    } //
 
     public Message ReadDialog(String ID) throws IOException {
         int c;
@@ -176,7 +176,7 @@ public class Client_FileSystem {
     } //read message, time = FileSystem.Message from FileSystem.Dialog ID
 
     public void CreateDialog(Dialog D) throws IOException {
-        FileWriter out = new FileWriter("sources/" + D.DialogID + ".txt", true);
+        FileWriter out = new FileWriter("sources/" + D.getDialogID() + ".txt", true);
         out.close();
         FileWriter Dialogs_info = new FileWriter(Dialog_info, true);
         gson.toJson(D, Dialogs_info);
@@ -184,7 +184,7 @@ public class Client_FileSystem {
         Dialogs_info.close();
     } // ..
 
-    public void WriteDialog(Message M, String ID) throws IOException {
+    public void WriteDialog(Message M, int ID) throws IOException {
         FileWriter out = new FileWriter("sources/" + ID + ".txt", true);
         gson.toJson(M, out);
         out.write("\n");

@@ -1,8 +1,16 @@
 package FileSystem;
 
 public class Dialog {
-    String Dialog_name = "";
-    int DialogID;
+    private String Dialog_name = "";
+    private int DialogID;
+
+    public String getDialog_name() {
+        return Dialog_name;
+    }
+
+    public void setDialog_name(String dialog_name) {
+        Dialog_name = dialog_name;
+    }
 
     public int getDialogID() {
         return DialogID;
@@ -12,17 +20,16 @@ public class Dialog {
         DialogID = dialogID;
     }
 
-    public boolean IsInMembers(String S){
-        for(String x : Dialog_members){
-            if(x.equals(S)){
-                return true;
-            }
-        }
-        return false;
+    public UserInfo[] getDialog_members() {
+        return Dialog_members;
     }
 
-    String[] Dialog_members;
-    public Dialog(String DName, int DID, String[] Users){
+    public void setDialog_members(UserInfo[] dialog_members) {
+        Dialog_members = dialog_members;
+    }
+
+    private UserInfo[] Dialog_members;
+    public Dialog(String DName, int DID, UserInfo[] Users){
         Dialog_name = DName;
         DialogID = DID;
         Dialog_members = Users;
