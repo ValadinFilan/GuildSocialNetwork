@@ -3,6 +3,7 @@ package FileSystem;
 public class Dialog {
     private String Dialog_name = "";
     private int DialogID;
+    private String[] Dialog_members;
 
     public String getDialog_name() {
         return Dialog_name;
@@ -20,16 +21,15 @@ public class Dialog {
         DialogID = dialogID;
     }
 
-    public UserInfo[] getDialog_members() {
+    public String[] getDialog_members() {
         return Dialog_members;
     }
 
-    public void setDialog_members(UserInfo[] dialog_members) {
+    public void setDialog_members(String[] dialog_members) {
         Dialog_members = dialog_members;
     }
 
-    private UserInfo[] Dialog_members;
-    public Dialog(String DName, int DID, UserInfo[] Users){
+    public Dialog(String DName, int DID, String[] Users){
         Dialog_name = DName;
         DialogID = DID;
         Dialog_members = Users;
@@ -44,10 +44,4 @@ public class Dialog {
         return false;
     }
 
-    String[] Dialog_members;
-    public Dialog(String DName, int DID, String[] Users){
-        Dialog_name = DName;
-        DialogID = DID;
-        Dialog_members = Users;
-    }
 }

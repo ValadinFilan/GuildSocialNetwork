@@ -1,4 +1,4 @@
-package client.Authorization;
+package client.AutoReg;
 
 import javax.swing.*;
 import java.awt.*;

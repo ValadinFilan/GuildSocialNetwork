@@ -1,7 +1,5 @@
 package client;
 
-import client.Authorization.Authorization;
-import client.Authorization.Registration;
 import client.Dialogs.MessagePanel;
 
 import javax.swing.*;
