@@ -18,7 +18,9 @@ public class RequestManager {
 
     public RequestManager(){
         try{
+            System.out.println("Start do");
             socket = new Socket("10.192.213.170", 3345);
+            System.out.println("Start connection");
             //br = new BufferedReader(new InputStreamReader(System.in));
             oos = new DataOutputStream(socket.getOutputStream());
             ois = new DataInputStream(socket.getInputStream());

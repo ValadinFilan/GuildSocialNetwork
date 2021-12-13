@@ -17,7 +17,7 @@ public class Server {
     private Scanner sc;
     private LogManager logManager;
     private Server_FileSystem serverFileSystem;
-    private RequestManager reqManager;
+    //private RequestManager reqManager;
     private AnswerManager ansManager;
     public Server(){
         logManager = new LogManager(this);
@@ -27,7 +27,7 @@ public class Server {
             e.printStackTrace();
             System.out.println("ERROR: Filesystem crashed");
         }
-        reqManager = new RequestManager();
+        //reqManager = new RequestManager();
         ansManager = new AnswerManager(serverFileSystem);
         sc = new Scanner(System.in);
 
@@ -36,18 +36,19 @@ public class Server {
         while (ListenCommand() != -1){
         }*/
 
-        try (ServerSocket server= new ServerSocket(3345)){
+        print("Connection started.", MessageType.SUCCESS);
+        try (ServerSocket server= new ServerSocket(3434)){
             Socket client = server.accept();
-            logManager.createNewLog("Connection accepted.", MessageType.WARNING);
+            print("Connection accepted.", MessageType.WARNING);
 
             DataOutputStream out = new DataOutputStream(client.getOutputStream());
             DataInputStream in = new DataInputStream(client.getInputStream());
             System.out.println("DataInputStream created");
             while(!client.isClosed()){
-                logManager.createNewLog("Ready.", MessageType.SUCCESS);
+                print("Ready.", MessageType.SUCCESS);
 
                 String entry = in.readUTF();
-                logManager.createNewLog("Request: " + entry, MessageType.WARNING);
+                print("Request: " + entry, MessageType.WARNING);
 
                 ansManager.Handle(entry);
                 if(entry.equalsIgnoreCase("quit")){
@@ -124,32 +125,32 @@ public class Server {
                 String U = sc.nextLine();
                 String T = sc.nextLine();
                 int ID = sc.nextInt();
-                ansManager.Handle(reqManager.LOAD_MSG(U, ID, T));
+                //ansManager.Handle(reqManager.LOAD_MSG(U, ID, T));
                 return 0;
             }
             else if(Objects.equals(data[0], "FS_Check_SEND_MSG")){
                 logManager.sendLogToConsole(logManager.createNewLog("SEND_MSG", MessageType.SUCCESS));
-                ansManager.Handle(reqManager.SEND_MSG(new Message("23:50", 1, "3 Topora"), 1));
+                //ansManager.Handle(reqManager.SEND_MSG(new Message("23:50", 1, "3 Topora"), 1));
                 return 0;
             }
             else if(Objects.equals(data[0], "FS_Check_REG_USER")){
                 logManager.sendLogToConsole(logManager.createNewLog("Check RegUser", MessageType.SUCCESS));
-                ansManager.Handle(reqManager.REG_USER("Valera", "11111111"));
+                //ansManager.Handle(reqManager.REG_USER("Valera", "11111111"));
                 return 0;
             }
             else if(Objects.equals(data[0], "FS_Check_AUTH_USER")){
                 logManager.sendLogToConsole(logManager.createNewLog("Check RegUser", MessageType.SUCCESS));
-                ansManager.Handle(reqManager.AUTH_USER("Valera", "11111111"));
+                //ansManager.Handle(reqManager.AUTH_USER("Valera", "11111111"));
                 return 0;
             }
             else if(Objects.equals(data[0], "FS_Check_NEW_DIAl")){
                 logManager.sendLogToConsole(logManager.createNewLog("Make new dialog", MessageType.SUCCESS));
-                ansManager.Handle(reqManager.NEW_DIAL("Valera", "Igor"));
+                //ansManager.Handle(reqManager.NEW_DIAL("Valera", "Igor"));
                 return 0;
             }
             else if(Objects.equals(data[0], "FS_Check_GET_DIAl")){
                 logManager.sendLogToConsole(logManager.createNewLog("Get dialogs", MessageType.SUCCESS));
-                ansManager.Handle(reqManager.GET_DIAL("Igor"));
+                //ansManager.Handle(reqManager.GET_DIAL("Igor"));
                 return 0;
             }
             if(Objects.equals(data[0].toLowerCase(Locale.ROOT), "exit")) return -1;
