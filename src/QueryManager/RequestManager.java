@@ -19,7 +19,7 @@ public class RequestManager {
     public RequestManager(){
         try{
             System.out.println("Start do");
-            socket = new Socket("192.168.1.69", 3345);
+            socket = new Socket("192.168.1.64", 0);
             System.out.println("Start connection");
             //br = new BufferedReader(new InputStreamReader(System.in));
             oos = new DataOutputStream(socket.getOutputStream());
@@ -54,12 +54,10 @@ public class RequestManager {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if(ois.read() > -1)     {
-                    System.out.println("reading...");
-                    String data = ois.readUTF();
-                    System.out.println(data);
-                    M = gson.fromJson(data, Message.class);
-                }
+                System.out.println("reading...");
+                String data = ois.readUTF();
+                System.out.println(data);
+                M = gson.fromJson(data, Message.class);
             } catch (IOException e) {
                 e.printStackTrace();
 

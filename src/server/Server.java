@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.Writer;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Locale;
@@ -37,7 +38,8 @@ public class Server {
         }*/
 
         print("Connection started.", MessageType.SUCCESS);
-        try (ServerSocket server= new ServerSocket(3434)){
+        try (ServerSocket server= new ServerSocket(54457)){
+            System.out.println(server.getLocalPort());
             Socket client = server.accept();
             print("Connection accepted.", MessageType.WARNING);
 
@@ -51,6 +53,13 @@ public class Server {
                 print("Request: " + entry, MessageType.WARNING);
 
                 ansManager.Handle(entry);
+                Message MS = new Message("20:20", 1, "SERVER IS HEARING YOU");
+                String data = (new Gson()).toJson(MS);
+                print(data, MessageType.WARNING);
+                out.writeUTF(data);
+                out.flush();
+                print("Sent", MessageType.SUCCESS);
+                Thread.sleep(1000);
                 if(entry.equalsIgnoreCase("quit")){
                     Message M = new Message("20:20", 1, "SERVER IS HEARING YOU");
                     out.writeUTF((new Gson()).toJson(M));
