@@ -18,7 +18,7 @@ import java.util.Date;
 
 public class DialogPanel extends JPanel {
     int dialogID = 10, userId, thisUserId = 1;
-    String userName;
+    String userName = "Valery";
     QueryManager.RequestManager requestManager = new RequestManager(this);
     JPanel p;
     JScrollPane pane;
@@ -46,8 +46,8 @@ public class DialogPanel extends JPanel {
                 if(!textField.getText().trim().equals("")) {
                     Message message = new Message((new SimpleDateFormat("hh:mm")).format(new Date()), userId, textField.getText());
                     newMessage(message, true);
-                    requestManager.SEND_MSG(message, dialogID);
                     textField.setText("Введите сообщение");
+                    requestManager.SEND_MSG(message, dialogID);
                 }
             }
         });
