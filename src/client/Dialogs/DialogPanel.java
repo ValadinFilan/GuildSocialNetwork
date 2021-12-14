@@ -17,7 +17,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DialogPanel extends JPanel {
-    int dialogID = 10, userId, thisUserId = 1;
+    int dialogID = 1, userId, thisUserId = 1;
     String userName = "Valery";
     QueryManager.RequestManager requestManager = new RequestManager(this);
     JPanel p;
