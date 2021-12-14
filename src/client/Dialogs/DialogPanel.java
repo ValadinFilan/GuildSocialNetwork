@@ -5,6 +5,7 @@ import FileSystem.Client_FileSystem;
 import QueryManager.AnswerManager;
 import QueryManager.RequestManager;
 import com.google.gson.Gson;
+import sun.awt.windows.ThemeReader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,9 +17,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DialogPanel extends JPanel {
-    int dialogID, userId, thisUserId;
+    int dialogID = 10, userId, thisUserId = 1;
     String userName;
-    QueryManager.RequestManager requestManager = new RequestManager();
+    QueryManager.RequestManager requestManager = new RequestManager(this);
     JPanel p;
     JScrollPane pane;
     DialogManagerPanel managerPanel;
@@ -54,12 +55,24 @@ public class DialogPanel extends JPanel {
         footer.add(textField);
         footer.add(send);
         add(footer, BorderLayout.SOUTH);
-        Message m = requestManager.LOAD_MSG(userName, dialogID);
-        while(m != null){
-            newMessage(m, m.getUserID() == thisUserId);
-            m = requestManager.LOAD_MSG(userName, dialogID);
-            break;
-        }
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true){
+                    Message m = requestManager.LOAD_MSG(userName, dialogID);
+                    while(m != null){
+                        newMessage(m, m.getUserID() == thisUserId);
+                        m = requestManager.LOAD_MSG(userName, dialogID);
+                    }
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
     }
     public void newMessage(Message message, boolean right){
         MessagePanel mp = new MessagePanel(0, 0, 300, 50, right, message.getText(), message.getTime());

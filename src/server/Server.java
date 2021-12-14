@@ -3,6 +3,8 @@ package server;
 import FileSystem.*;
 import QueryManager.*;
 import com.google.gson.Gson;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import sun.awt.windows.ThemeReader;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -13,12 +15,12 @@ import java.net.Socket;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 public class Server {
     private Scanner sc;
     private LogManager logManager;
     private Server_FileSystem serverFileSystem;
-    //private RequestManager reqManager;
     private AnswerManager ansManager;
     public Server(){
         logManager = new LogManager(this);
@@ -26,55 +28,66 @@ public class Server {
             serverFileSystem = new Server_FileSystem();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("ERROR: Filesystem crashed");
+            print("Filesystem crashed", MessageType.WARNING);
         }
-        //reqManager = new RequestManager();
         ansManager = new AnswerManager(serverFileSystem);
         sc = new Scanner(System.in);
-
+        Start();
+    }
+    public void Start(){
         print("Server successfully started", MessageType.SUCCESS);
-        /*
-        while (ListenCommand() != -1){
-        }*/
-
-        print("Connection started.", MessageType.SUCCESS);
-        try (ServerSocket server= new ServerSocket(54457)){
-            System.out.println(server.getLocalPort());
-            Socket client = server.accept();
-            print("Connection accepted.", MessageType.WARNING);
-
-            DataOutputStream out = new DataOutputStream(client.getOutputStream());
-            DataInputStream in = new DataInputStream(client.getInputStream());
-            System.out.println("DataInputStream created");
-            while(!client.isClosed()){
-                print("Ready.", MessageType.SUCCESS);
-
-                String entry = in.readUTF();
-                print("Request: " + entry, MessageType.WARNING);
-
-                ansManager.Handle(entry);
-                Message MS = new Message("20:20", 1, "IGOR POLUCHIL AUTOMATY");
-                String data = (new Gson()).toJson(MS);
-                print(data, MessageType.WARNING);
-                out.writeUTF(data);
-                out.flush();
-                print("Sent", MessageType.SUCCESS);
-                Thread.sleep(1000);
-                if(entry.equalsIgnoreCase("quit")){
-                    Message M = new Message("20:20", 1, "SERVER IS HEARING YOU");
-                    out.writeUTF((new Gson()).toJson(M));
-                    out.flush();
-                    Thread.sleep(1000);
-                    break;
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (ListenCommand() != -1){
                 }
+            };
+        });
+        thread.start();
+        Listen();
+    }
+    public void Listen(){
+        while(true){
+            print("Listening new connection...", MessageType.SUCCESS);
+            try (ServerSocket server= new ServerSocket(0)){
+                print("Port has been opened: " + server.getLocalPort(), MessageType.WARNING);
+                Socket client = server.accept();
+                print("Connection accepted." + client.getInetAddress().getHostAddress(), MessageType.SUCCESS);
+                Thread thread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try{
+                            DataOutputStream out = new DataOutputStream(client.getOutputStream());
+                            DataInputStream in = new DataInputStream(client.getInputStream());
+                            boolean flag = true;
+                            while(flag) {
+                                String entry = in.readUTF();
+                                String data = ansManager.Handle(entry);
+                                if(data.equals("quit")) flag = false;
+                                out.writeUTF(data);
+                                out.flush();
+                                while (data != null) {
+                                    out.writeUTF(data);
+                                    out.flush();
+                                    entry = in.readUTF();
+                                    data = ansManager.Handle(entry);
+                                }
+                                out.writeUTF("NULL");
+                                out.flush();
+                            }
+                            in.close();
+                            out.close();
+                            client.close();
+                        }catch (Exception e){
+                            print(e.getMessage(), MessageType.ERROR);
+                        }
+                    }
+                });
+                thread.start();
+            }catch (Exception e){
+                print(e.getMessage(), MessageType.ERROR);
             }
-            in.close();
-            out.close();
-            client.close();
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
         }
-
     }
     public void print(String message, MessageType type){
         String textColorMarker = "\u001B[30m";
@@ -115,18 +128,18 @@ public class Server {
                 return 0;
             }
             if(Objects.equals(data[0], "FS_AddUser")){
-                //serverFileSystem.AddUser("Igor", "hiinomaru", "1234567890"); // add user in list
+                serverFileSystem.AddUser("Igor", "hiinomaru", "1234567890"); // add user in list
                 logManager.sendLogToConsole(logManager.createNewLog("User added", MessageType.SUCCESS));
                 return 0;
             }
             else if(Objects.equals(data[0], "FS_CreateDialog")){
-                //serverFileSystem.CreateDialog("User1", "User2");// add dialog in list
+                serverFileSystem.CreateDialog("User1", "User2");// add dialog in list
                 logManager.sendLogToConsole(logManager.createNewLog("Dialog added", MessageType.SUCCESS));
                 return 0;
             }
             else if(Objects.equals(data[0], "FS_WriteDialog")){
                 Message M = new Message("23:50", 1, "4 Tuza");
-                //serverFileSystem.WriteDialog(M, 1);// add dialog in list
+                serverFileSystem.WriteDialog(M, 1);// add dialog in list
                 return 0;
             }
             else if(Objects.equals(data[0], "FS_Check_LOAD_MSG")){

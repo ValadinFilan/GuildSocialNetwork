@@ -1,6 +1,8 @@
 package QueryManager;
 
+import FileSystem.Dialog;
 import FileSystem.Message;
+import client.Dialogs.DialogPanel;
 import com.google.gson.Gson;
 
 import java.io.*;
@@ -15,17 +17,12 @@ public class RequestManager {
     //BufferedReader br;
     DataOutputStream oos;
     DataInputStream ois;
-
-    public RequestManager(){
+    DialogPanel dialogPanel;
+    public RequestManager(DialogPanel panel){
         try{
-            System.out.println("Start do");
-            socket = new Socket("25.62.187.132", 54457);
-            System.out.println("Start connection");
+            socket = new Socket("25.62.187.132", 0);
             oos = new DataOutputStream(socket.getOutputStream());
             ois = new DataInputStream(socket.getInputStream());
-            System.out.println("Client connected to socket.");
-            System.out.println();
-            System.out.println("Client writing channel = oos & reading channel = ois initialized.");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -48,11 +45,6 @@ public class RequestManager {
             try {
                 oos.writeUTF(Request);
                 oos.flush();
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
                 System.out.println("reading...");
                 String data = ois.readUTF();
                 System.out.println(data);

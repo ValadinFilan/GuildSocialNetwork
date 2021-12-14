@@ -14,7 +14,7 @@ public class AnswerManager {
         gson  = new Gson();
     }
 
-    public void Handle(String Request) throws IOException {
+    public String Handle(String Request) throws IOException {
         int i = Request.indexOf(',');
         String Type = Request.substring(9, i - 1);
         Request = Request.substring(i + 1);
@@ -36,12 +36,11 @@ public class AnswerManager {
                 Request = Request.substring(i + 1);
                 String MessageTime = Request.substring(15, Request.length()-2);
                 if(MessageTime.equals("NULL")){
-                    System.out.println(FS.ReadDialog(DialogID));
+                    return gson.toJson(FS.ReadDialog(DialogID));
                 }
                 else{
-                    System.out.println(FS.ReadDialog(DialogID, MessageTime));
+                    return gson.toJson(FS.ReadDialog(DialogID, MessageTime));
                 }
-                break;
             }
             case ("SEND_MSG"): // parse Json and made FS to write Message
             {
@@ -49,7 +48,7 @@ public class AnswerManager {
                 i = Request.lastIndexOf(':') + 1;
                 try{
                     DialogID = Integer.parseInt(Request.substring(i , Request.length() - 1));
-                    System.out.println(DialogID);
+                    //System.out.println(DialogID);
                 }
                 catch (NumberFormatException ex){
                     ex.printStackTrace();
@@ -57,8 +56,7 @@ public class AnswerManager {
                 Request = Request.substring(10, i - 12);
                 Message M = gson.fromJson(Request, Message.class);
                 FS.WriteDialog(M, DialogID);
-                System.out.println(M);
-                break;
+                return null;
             }
             case ("REG_USER"): // FS makes new record in Users_info
             {
@@ -68,6 +66,7 @@ public class AnswerManager {
                 String Password = Request.substring(12, Request.length() - 2);
                 Request = Request.substring(i + 1);
                 FS.AddUser("0", Login, Password);
+                return null;
             }
             case ("AUTH_USER"): // print "authorized" if found user
             {
@@ -76,15 +75,15 @@ public class AnswerManager {
                 Request = Request.substring(i + 1);
                 String Password = Request.substring(12, Request.length() - 2);
                 if (Password.equals((FS.FindUser(Login)).getPassword())){
-                    System.out.println("authorized");
+                    return "successfull";
                 }
                 else
-                    System.out.println("unauthorized");
+                    return "unsuccessfull";
             }
             case ("GET_DIAL"):
             {
                 String Username = Request.substring(12, Request.length() - 2);
-                System.out.println(FS.FindDialog(Username));
+                return FS.FindDialog(Username);
             }
             case ("NEW_DIAL"): // нет добавления в список диалогов юзера (только в список юзеров диалога)
             {
@@ -95,7 +94,9 @@ public class AnswerManager {
                 Dialog D = FS.CreateDialog(Username, TargetUser);
                 (FS.FindUser(Username)).AddDialog(D);
                 (FS.FindUser(Username)).AddDialog(D);
+                return null;
             }
         }
+        return "ERROR, incorrect request";
     }
 }
