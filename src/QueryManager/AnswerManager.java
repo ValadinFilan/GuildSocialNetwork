@@ -1,7 +1,6 @@
 package QueryManager;
 
-import FileSystem.Message;
-import FileSystem.Server_FileSystem;
+import FileSystem.*;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -37,10 +36,10 @@ public class AnswerManager {
                 Request = Request.substring(i + 1);
                 String MessageTime = Request.substring(15, Request.length()-2);
                 if(MessageTime.equals("NULL")){
-                    //System.out.println(FS.ReadDialog(DialogID));
+                    System.out.println(FS.ReadDialog(DialogID));
                 }
                 else{
-                    //System.out.println(FS.ReadDialog(DialogID, MessageTime));
+                    System.out.println(FS.ReadDialog(DialogID, MessageTime));
                 }
                 break;
             }
@@ -57,7 +56,7 @@ public class AnswerManager {
                 }
                 Request = Request.substring(10, i - 12);
                 Message M = gson.fromJson(Request, Message.class);
-                //FS.WriteDialog(M, DialogID); ЖОПА
+                FS.WriteDialog(M, DialogID);
                 System.out.println(M);
                 break;
             }
@@ -68,7 +67,7 @@ public class AnswerManager {
                 Request = Request.substring(i + 1);
                 String Password = Request.substring(12, Request.length() - 2);
                 Request = Request.substring(i + 1);
-                //FS.AddUser("0", Login, Password); ЖОПА
+                FS.AddUser("0", Login, Password);
             }
             case ("AUTH_USER"): // print "authorized" if found user
             {
@@ -76,18 +75,16 @@ public class AnswerManager {
                 String Login = Request.substring(9, i - 1);
                 Request = Request.substring(i + 1);
                 String Password = Request.substring(12, Request.length() - 2);
-                /*if (Password.equals((FS.FindUser(Login)).getPassword())){ ПИПЕЦ ПОЛНЫЙ
+                if (Password.equals((FS.FindUser(Login)).getPassword())){
                     System.out.println("authorized");
                 }
                 else
                     System.out.println("unauthorized");
-                    */
             }
             case ("GET_DIAL"):
             {
                 String Username = Request.substring(12, Request.length() - 2);
-                //System.out.println(FS.FindDialog(Username));
-                System.out.println(FS.ReadDialog(Username));
+                System.out.println(FS.FindDialog(Username));
             }
             case ("NEW_DIAL"): // нет добавления в список диалогов юзера (только в список юзеров диалога)
             {
@@ -95,9 +92,9 @@ public class AnswerManager {
                 String Username = Request.substring(12, i - 1);
                 Request = Request.substring(i + 1);
                 String TargetUser = Request.substring(14, Request.length() - 2);
-                //Dialog D = FS.CreateDialog(Username, TargetUser); ПИПЕЦ
-                //(FS.FindUser(Username)).AddDialog(D);
-                //(FS.FindUser(Username)).AddDialog(D);
+                Dialog D = FS.CreateDialog(Username, TargetUser);
+                (FS.FindUser(Username)).AddDialog(D);
+                (FS.FindUser(Username)).AddDialog(D);
             }
         }
     }

@@ -53,7 +53,7 @@ public class Server {
                 print("Request: " + entry, MessageType.WARNING);
 
                 ansManager.Handle(entry);
-                Message MS = new Message("20:20", 1, "SERVER IS HEARING YOU");
+                Message MS = new Message("20:20", 1, "IGOR POLUCHIL AUTOMATY");
                 String data = (new Gson()).toJson(MS);
                 print(data, MessageType.WARNING);
                 out.writeUTF(data);
