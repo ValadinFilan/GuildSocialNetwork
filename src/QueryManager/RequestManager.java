@@ -39,19 +39,18 @@ public class RequestManager {
     public Message LOAD_MSG(String Username, int DialogID) {
         String Request = "{\"Type\":\"LOAD_MSG\"," + "\"Username\":\"" + Username +"\"," +
                 "\"DialogID\":\"" + DialogID +"\"," + "\"MessageTime\":\"" + "NULL" + "\"}";
-        Message M = new Message("20:20", 1, "Hello"); // some message
-
+        Message M = null; // some message
         if(!socket.isInputShutdown()){
             try {
                 oos.writeUTF(Request);
                 oos.flush();
-                System.out.println("reading...");
                 String data = ois.readUTF();
-                System.out.println(data);
-                M = gson.fromJson(data, Message.class);
+                if(!data.equals("NULL"))
+                    M = gson.fromJson(data, Message.class);
+                else
+                    M = null;
             } catch (IOException e) {
                 e.printStackTrace();
-
             }
         }
         return M; // return result
@@ -60,7 +59,16 @@ public class RequestManager {
     public String SEND_MSG(Message Message, int DialogID){
         String M = gson.toJson(Message);
         String Request = "{\"Type\":\"SEND_MSG\"," + "\"Message\":" + M + ",\"DialogID\":" + DialogID + "}";
-        System.out.println(Request);
+        if(!socket.isInputShutdown()){
+            try {
+                oos.writeUTF(Request);
+                oos.flush();
+                String data = ois.readUTF();
+                System.out.println(data == "NULL" ? "SUCCESS" : "ERROR");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         return Request; // return result
     }
 
