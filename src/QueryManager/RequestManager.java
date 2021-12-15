@@ -1,13 +1,11 @@
 package QueryManager;
 
-import FileSystem.Dialog;
 import FileSystem.Message;
 import client.Dialogs.DialogPanel;
 import com.google.gson.Gson;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 
 public class RequestManager {

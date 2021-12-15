@@ -1,4 +1,6 @@
 {"Time":"23:50","UserID":1,"Text":"4 Tuza"}
-{"Time":"23:55","UserID":1,"Text":"3 Topora"}{"Time":"12:26","UserID":0,"Text":"Введите сообщение"}
-{"Time":"12:26","UserID":0,"Text":"Введите сообщение"}
-{"Time":"12:26","UserID":0,"Text":"Введите сообщение"}
+{"Time":"23:55","UserID":1,"Text":"3 Topora"}
+{"Time":"12:26","UserID":0,"Text":"Enter"}
+{"Time":"12:26","UserID":0,"Text":"Enter"}
+{"Time":"12:26","UserID":0,"Text":"Enter"}
+{"Time":"12:34","UserID":0,"Text":"trang"}

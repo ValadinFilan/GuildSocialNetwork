@@ -64,12 +64,11 @@ public class Server {
                                 String entry = in.readUTF();
                                 String data = ansManager.Handle(entry);
                                 if(data.equals("quit")) flag = false;
-                                out.writeUTF(data);
-                                out.flush();
                                 while (data != null) {
                                     out.writeUTF(data);
                                     out.flush();
                                     entry = in.readUTF();
+                                    System.out.println(entry);
                                     data = ansManager.Handle(entry);
                                 }
                                 out.writeUTF("NULL");
@@ -79,13 +78,13 @@ public class Server {
                             out.close();
                             client.close();
                         }catch (Exception e){
-                            print(e.getMessage(), MessageType.ERROR);
+                            print("Error with running" + e.getMessage(), MessageType.ERROR);
                         }
                     }
                 });
                 thread.start();
             }catch (Exception e){
-                print(e.getMessage(), MessageType.ERROR);
+                print("Error with listening" + e.getMessage(), MessageType.ERROR);
             }
         }
     }

@@ -94,6 +94,7 @@ public class Server_FileSystem {
         int c;
         String Result = "";
         Stream_info Stream = null;
+        /*ВОТ ПОСЛЕ ЭТОЙ СТРОКИ БЬЕТ ОШИБКУ*/
         for (int i = 0; i < 4; i++) {
             if (Streams[i] == null) {
                 Streams[i] = new Stream_info(ID, new ReverseLineInputStream(new File("sources_server/" + ID + ".txt")));
@@ -105,6 +106,7 @@ public class Server_FileSystem {
                 break;
             }
         }
+        /*ДО ЭТОЙ СТРОКИ*/
         if(Stream == null) {
             Streams[OldStream].FIS.close();
             Streams[OldStream] = new Stream_info(ID, new ReverseLineInputStream(new File("sources_server/" + ID + ".txt")));
