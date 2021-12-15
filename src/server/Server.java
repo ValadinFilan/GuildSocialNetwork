@@ -60,20 +60,25 @@ public class Server {
                             DataOutputStream out = new DataOutputStream(client.getOutputStream());
                             DataInputStream in = new DataInputStream(client.getInputStream());
                             boolean flag = true;
-                            while(flag) {
-                                String entry = in.readUTF();
-                                String data = ansManager.Handle(entry);
-                                if(data.equals("quit")) flag = false;
-                                while (data != null) {
-                                    out.writeUTF(data);
+                            try {
+                                while (flag) {
+                                    String entry = in.readUTF();
+                                    String data = ansManager.Handle(entry);
+                                    if (data.equals("quit")) flag = false;
+                                    while (data != null) {
+                                        out.writeUTF(data);
+                                        out.flush();
+                                        entry = in.readUTF();
+                                        data = ansManager.Handle(entry);
+                                    }
+                                    out.writeUTF("NULL");
                                     out.flush();
-                                    entry = in.readUTF();
-                                    System.out.println(entry);
-                                    data = ansManager.Handle(entry);
                                 }
-                                out.writeUTF("NULL");
-                                out.flush();
+                            }catch (Exception e){
+                                print(e.getMessage(), MessageType.WARNING);
                             }
+                            out.writeUTF("STOP");
+                            out.flush();
                             in.close();
                             out.close();
                             client.close();

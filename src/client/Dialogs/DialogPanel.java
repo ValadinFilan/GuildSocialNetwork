@@ -52,15 +52,19 @@ public class DialogPanel extends JPanel {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
+                Message m = requestManager.LOAD_MSG(userName, dialogID);
+                while(m != null){
+                    newMessage(m, m.getUserID() == thisUserId);
+                    m = requestManager.LOAD_MSG(userName, dialogID);
+                }
                 while (true){
-                    Message m = requestManager.LOAD_MSG(userName, dialogID);
-                    while(m != null){
-                        newMessage(m, m.getUserID() == thisUserId);
-                        m = requestManager.LOAD_MSG(userName, dialogID);
-                    }
                     try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
+                        Thread.sleep(1000);
+                        m = requestManager.LOAD_MSG(userName, dialogID);
+                        while(m != null){
+                            newMessage(m, m.getUserID() == thisUserId);
+                        }
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
