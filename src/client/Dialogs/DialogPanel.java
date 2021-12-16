@@ -73,6 +73,7 @@ public class DialogPanel extends JPanel {
                                     m = (new Gson()).fromJson(Lines[i], Message.class);
                                     newMessage(m, m.getUserID() == thisUserId);
                                 }
+                                LastTime = m.getTime();
                             }
                         }
                     } catch (Exception e) {
