@@ -1,6 +1,7 @@
 package FileSystem;
 
 import com.google.gson.Gson;
+import java.util.HashMap;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -19,10 +20,12 @@ public class Server_FileSystem {
     int lastRegUserID = 1;
     int lastDialID = 1;
     Gson gson = new Gson();
+    HashMap<Integer, String> UserInfo = new HashMap<>(); // hashmap
 
     public void AddUser(String name, String login, String password) throws IOException {
         ArrayList<Dialog> dialogs = new ArrayList<Dialog>();
         lastRegUserID += 1;
+        UserInfo.put(lastRegUserID, login); // hashmap
         User user = new User(name, lastRegUserID, login, password, dialogs);
         FileWriter Users_info = new FileWriter("sources_server/Users_info.txt", true);
         gson.toJson(user, Users_info);
@@ -174,6 +177,44 @@ public class Server_FileSystem {
         }
     }  //read message before time = Last_msg_time from FileSystem.Dialog ID
 
+    public String RenewDialog(int ID, String Last_msg_time) throws IOException {
+        int c = 0;
+        String buf = "";
+        String Result = "";
+        ReverseLineInputStream Stream = new ReverseLineInputStream(new File("sources_server/" + ID + ".txt"));
+        Last_msg_time = "{\"Time\":\"" + Last_msg_time;
+        while(!buf.equals(Last_msg_time)){
+            while(((c=Stream.read())!= -1)&&(c != 123)){
+                Result += (char)c;
+            }
+            buf = "{";
+            for (int i = 0; i < 13; i++){
+                buf += (char)Stream.read();
+            }
+            Result += buf;
+            //System.out.print(buf);
+        }
+        while(buf.equals(Last_msg_time)){
+            while(((c=Stream.read())!= -1)&&(c != 123)){
+                Result += (char)c;
+            }
+            buf = "{";
+            for (int i = 0; i < 13; i++){
+                buf += (char)Stream.read();
+            }
+            if(buf.equals(Last_msg_time))
+                Result += buf;
+            //System.out.print(buf);
+        }
+        if(c == -1){
+            Stream.close();
+            return null;
+        }
+        else {
+            return Result;
+        }
+    }  //renew the dialogue by Last_msg_time;
+
     public Message ReadDialogByTime(int ID, String Msg_time) throws IOException {
         int c;
         String Result = "";
@@ -263,3 +304,4 @@ public class Server_FileSystem {
         out.close();
     } // write M in FileSystem.Dialog ID
 }
+
