@@ -66,11 +66,13 @@ public class DialogPanel extends JPanel {
                         String data = requestManager.RENEW_MSG(userName, dialogID, LastTime);
                         if(!Objects.equals(data, "NULL")){
                             String[] Lines = data.split("\n");
-                            m = (new Gson()).fromJson(Lines[0], Message.class);
-                            newMessage(m, m.getUserID() == thisUserId);
-                            for (int i = 1; i < Lines.length; i++) {
-                                m = (new Gson()).fromJson(Lines[i], Message.class);
+                            Message temp = (new Gson()).fromJson(Lines[0], Message.class);
+                            if(m.getUserID() != temp.getUserID() && !m.getTime().equals(temp.getTime()) && !m.getText().equals(m.getText())) {
                                 newMessage(m, m.getUserID() == thisUserId);
+                                for (int i = 1; i < Lines.length; i++) {
+                                    m = (new Gson()).fromJson(Lines[i], Message.class);
+                                    newMessage(m, m.getUserID() == thisUserId);
+                                }
                             }
                         }
                     } catch (Exception e) {

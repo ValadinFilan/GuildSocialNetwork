@@ -68,6 +68,7 @@ public class Server {
                                     while (data != null) {
                                         out.writeUTF(data);
                                         out.flush();
+                                        System.out.println(data);
                                         entry = in.readUTF();
                                         data = ansManager.Handle(entry);
                                     }

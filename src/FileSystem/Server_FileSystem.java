@@ -189,10 +189,9 @@ public class Server_FileSystem {
             }
             buf = "{";
             for (int i = 0; i < 13; i++){
-                buf += (char)Stream.read();
+                buf += (char)Stream.read(); //ДОЛЯ А НЕ ПРОЦЕНТЫ
             }
-            if(!buf.equals(Last_msg_time))
-                Result += buf;
+            Result += buf;
             //System.out.print(buf);
         }
         while(buf.equals(Last_msg_time)){
@@ -207,6 +206,7 @@ public class Server_FileSystem {
                 Result += buf;
             //System.out.print(buf);
         }
+        //System.out.print(Result);
         if(c == -1){
             Stream.close();
             return null;

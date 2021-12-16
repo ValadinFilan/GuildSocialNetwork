@@ -59,6 +59,7 @@ public class RequestManager {
                 oos.writeUTF(Request);
                 oos.flush();
                 data = ois.readUTF();
+                System.out.println(data);
                 System.out.println(data.equals("NULL") ? "SUCCESS" : "ERROR");
             } catch (IOException e) {
                 e.printStackTrace();
