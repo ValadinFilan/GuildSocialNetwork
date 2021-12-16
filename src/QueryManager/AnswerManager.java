@@ -46,6 +46,8 @@ package QueryManager; import FileSystem.*; import com.google.gson.Gson; import j
                 }
                 Request = Request.substring(i + 1);
                 String MessageTime = Request.substring(15, Request.length() - 2);
+                System.out.println(DialogID);
+                System.out.println(MessageTime);
                 return FS.RenewDialog(DialogID, MessageTime);
             }
             case ("SEND_MSG"): /* parse Json and made FS to write Message*/ {
@@ -56,7 +58,7 @@ package QueryManager; import FileSystem.*; import com.google.gson.Gson; import j
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
                 }
-                Request = Request.substring(10, i - 15);
+                Request = Request.substring(10, i - 12);
                 Message M = gson.fromJson(Request, Message.class);
                 FS.WriteDialog(M, DialogID);
                 return null;

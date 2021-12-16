@@ -189,18 +189,17 @@ public class Server_FileSystem {
                 Result += (char)c;
             }
             buf = "{";
-            for (int i = 0; i < 16; i++){
-                buf += (char)Stream.read(); //ДОЛЯ А НЕ ПРОЦЕНТЫ
+            for (int i = 0; i < 13; i++){
+                buf += (char)Stream.read();
             }
             Result += buf;
-            //System.out.print(buf);
         }
         while(buf.equals(Last_msg_time)){
             while(((c=Stream.read())!= -1)&&(c != 123)){
                 Result += (char)c;
             }
             buf = "{";
-            for (int i = 0; i < 16; i++){
+            for (int i = 0; i < 13; i++){
                 buf += (char)Stream.read();
             }
             if(buf.equals(Last_msg_time))

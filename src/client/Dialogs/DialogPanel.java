@@ -62,7 +62,7 @@ public class DialogPanel extends JPanel {
                     messages.add(m);
                     m = requestManager.LOAD_MSG(userName, dialogID);
                 }
-                for (int i = messages.size() - 1; i > 0; i--)
+                for (int i = messages.size() - 1; i >= 0; i--)
                     newMessage(messages.get(i), messages.get(i).getUserID() == thisUserId);
                 m = lastMessage;
                 while (true){
@@ -74,8 +74,8 @@ public class DialogPanel extends JPanel {
                             String[] Lines = data.split("\n");
                             System.out.println(Lines[Lines.length - 1]);
                             Message temp = (new Gson()).fromJson(Lines[Lines.length - 1], Message.class);
-                            System.out.println(m.toString());
-                            System.out.println(temp.toString());
+                            System.out.println("M: " + m.toString());
+                            System.out.println("Temp: " + temp.toString());
                             if(m.getUserID() != temp.getUserID() || !m.getTime().equals(temp.getTime()) || !m.getText().equals(m.getText())) {
                                 m = temp;
                                 newMessage(m, m.getUserID() == thisUserId);
