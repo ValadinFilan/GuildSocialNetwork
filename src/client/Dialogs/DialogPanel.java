@@ -63,7 +63,7 @@ public class DialogPanel extends JPanel {
                     messages.add(m);
                     m = requestManager.LOAD_MSG(userName, dialogID);
                 }
-                for (int i = messages.size(); i > 0; i--)
+                for (int i = messages.size() - 1; i > 0; i--)
                     newMessage(messages.get(i), messages.get(i).getUserID() == thisUserId);
                 m = lastMessage;
                 while (true){
