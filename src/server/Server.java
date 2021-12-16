@@ -25,15 +25,14 @@ public class Server {
         try {
             serverFileSystem = new Server_FileSystem();
         } catch (IOException e) {
-            e.printStackTrace();
-            print("Filesystem crashed", MessageType.WARNING);
+            logManager.createNewLog("Filesystem crashed", MessageType.WARNING);
         }
-        ansManager = new AnswerManager(serverFileSystem);
+        ansManager = new AnswerManager(serverFileSystem, logManager);
         sc = new Scanner(System.in);
         Start();
     }
     public void Start(){
-        print("Server successfully started", MessageType.SUCCESS);
+        logManager.createNewLog("Server successfully started", MessageType.SUCCESS);
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -46,11 +45,11 @@ public class Server {
     }
     public void Listen(){
         while(true){
-            print("Listening new connection...", MessageType.SUCCESS);
+            logManager.createNewLog("Listening new connection...", MessageType.SUCCESS);
             try (ServerSocket server= new ServerSocket(0)){
-                print("Port has been opened: " + server.getLocalPort(), MessageType.WARNING);
+                logManager.createNewLog("Port has been opened: " + server.getLocalPort(), MessageType.WARNING);
                 Socket client = server.accept();
-                print("Connection accepted." + client.getInetAddress().getHostAddress(), MessageType.SUCCESS);
+                logManager.createNewLog("Connection accepted: " + client.getInetAddress().getHostAddress(), MessageType.SUCCESS);
                 Thread thread = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -66,7 +65,6 @@ public class Server {
                                     while (data != null) {
                                         out.writeUTF(data);
                                         out.flush();
-                                        System.out.println(data);
                                         entry = in.readUTF();
                                         data = ansManager.Handle(entry);
                                     }
@@ -74,7 +72,7 @@ public class Server {
                                     out.flush();
                                 }
                             }catch (Exception e){
-                                print(e.getMessage(), MessageType.WARNING);
+                                logManager.createNewLog(e.getMessage(), MessageType.ERROR);
                             }
                             out.writeUTF("STOP");
                             out.flush();
@@ -82,13 +80,13 @@ public class Server {
                             out.close();
                             client.close();
                         }catch (Exception e){
-                            print("Error with running" + e.getMessage(), MessageType.ERROR);
+                            logManager.createNewLog("Error with running" + e.getMessage(), MessageType.ERROR);
                         }
                     }
                 });
                 thread.start();
             }catch (Exception e){
-                print("Error with listening" + e.getMessage(), MessageType.ERROR);
+                logManager.createNewLog("Error with listening" + e.getMessage(), MessageType.ERROR);
             }
         }
     }
@@ -154,7 +152,6 @@ public class Server {
                 return 0;
             }
             else if(Objects.equals(data[0], "FS_Check_SEND_MSG")){
-                logManager.sendLogToConsole(logManager.createNewLog("SEND_MSG", MessageType.SUCCESS));
                 Message m = new Message((new SimpleDateFormat("hh:mm:ss")).format(new Date()), 2, command.substring(command.indexOf(" ") + 1, command.length() - 1));
                 String M = (new Gson()).toJson(m);
                 String Request = "{\"Type\":\"SEND_MSG\"," + "\"Message\":" + M + ",\"DialogID\":" + 1 + "}";
@@ -184,7 +181,7 @@ public class Server {
             if(Objects.equals(data[0].toLowerCase(Locale.ROOT), "exit")) return -1;
             throw new Exception();
         }catch (Exception e){
-            print("Wrong command", MessageType.ERROR);
+            logManager.createNewLog("Wrong command", MessageType.ERROR);
         }
         return 0;
     }

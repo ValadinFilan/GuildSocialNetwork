@@ -1,8 +1,14 @@
-package QueryManager; import FileSystem.*; import com.google.gson.Gson; import java.io.IOException; public class AnswerManager {
+package QueryManager; import FileSystem.*; import com.google.gson.Gson;
+import server.LogManager;
+import server.MessageType;
+
+import java.io.IOException; public class AnswerManager {
     Server_FileSystem FS;
     private Gson gson;
+    private LogManager logManager = null;
 
-    public AnswerManager(Server_FileSystem FileSystem) {
+    public AnswerManager(Server_FileSystem FileSystem, LogManager logManager) {
+        this.logManager = logManager;
         FS = FileSystem;
         gson = new Gson();
     }
@@ -57,6 +63,7 @@ package QueryManager; import FileSystem.*; import com.google.gson.Gson; import j
                 Request = Request.substring(10, i - 12);
                 Message M = gson.fromJson(Request, Message.class);
                 FS.WriteDialog(M, DialogID);
+                logManager.createNewLog("New message from user: " + Request, MessageType.MESSAGE);
                 return null;
             }
             case ("REG_USER"): /* FS makes new record in Users_info*/ {
