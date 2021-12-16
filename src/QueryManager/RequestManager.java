@@ -26,8 +26,6 @@ public class RequestManager {
                            String MessageTime) {
         String Request = "{\"Type\":\"LOAD_MSG\"," + "\"Username\":\"" + Username + "\"," + "\"DialogID\":\"" + DialogID + "\"," + "\"MessageTime\":\"" + MessageTime + "\"}";
         Message M = new Message("20:20", 1, "Hello");
-        /*some message*/ /*System.out.println(Request)*/
-        ;
         return Request; /* return result*/
     }
 
@@ -51,7 +49,6 @@ public class RequestManager {
     public String RENEW_MSG(String Username, int DialogID, String MessageTime) {
         String Request = "{\"Type\":\"RENEW_MSG\"," + "\"Username\":\"" +
                 Username + "\"," + "\"DialogID\":\"" + DialogID + "\"," + "\"MessageTime\":\"" + MessageTime + "\"}";
-        //System.out.println(Request);
         Message M = null;
         String data = null;
         if (!socket.isInputShutdown()) {
@@ -59,8 +56,6 @@ public class RequestManager {
                 oos.writeUTF(Request);
                 oos.flush();
                 data = ois.readUTF();
-                System.out.println(data);
-                System.out.println(data.equals("NULL") ? "SUCCESS" : "ERROR");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -76,7 +71,6 @@ public class RequestManager {
                 oos.writeUTF(Request);
                 oos.flush();
                 String data = ois.readUTF();
-                System.out.println(data == "NULL" ? "SUCCESS" : "ERROR");
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -86,19 +80,16 @@ public class RequestManager {
 
     public String REG_USER(String Login, String Password) {
         String Request = "{\"Type\":\"REG_USER\"," + "\"Login\":\"" + Login + "\"," + "\"Password\":\"" + Password + "\"}";
-        System.out.println(Request);
         return Request;
     }
 
     public String AUTH_USER(String Login, String Password) {
         String Request = "{\"Type\":\"AUTH_USER\"," + "\"Login\":\"" + Login + "\"," + "\"Password\":\"" + Password + "\"}";
-        System.out.println(Request);
         return Request;
     }
 
     public String UNAUTH_USER(String Login) {
         String Request = "{\"Type\":\"UNAUTH_USER\"," + "\"Login\":\"" + Login + "\"}";
-        System.out.println(Request);
         return Request;
     } // не помню зачем он нужен public
 

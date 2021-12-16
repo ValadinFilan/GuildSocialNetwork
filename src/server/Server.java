@@ -158,7 +158,6 @@ public class Server {
                 Message m = new Message((new SimpleDateFormat("hh:mm:ss")).format(new Date()), 2, command.substring(command.indexOf(" ") + 1, command.length() - 1));
                 String M = (new Gson()).toJson(m);
                 String Request = "{\"Type\":\"SEND_MSG\"," + "\"Message\":" + M + ",\"DialogID\":" + 1 + "}";
-                //FS_Check_SEND_MSG Hi igor
                 ansManager.Handle(Request);
                 return 0;
             }

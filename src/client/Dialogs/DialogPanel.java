@@ -70,22 +70,16 @@ public class DialogPanel extends JPanel {
                         Thread.sleep(1000);
                         String data = requestManager.RENEW_MSG(userName, dialogID, LastTime);
                         if(!Objects.equals(data, "NULL")){
-                            System.out.println(1);
                             String[] Lines = data.split("\n");
-                            System.out.println(Lines[Lines.length - 1]);
                             Message temp = (new Gson()).fromJson(Lines[Lines.length - 1], Message.class);
-                            System.out.println("M: " + m.toString());
-                            System.out.println("Temp: " + temp.toString());
                             if(m.getUserID() != temp.getUserID() || !m.getTime().equals(temp.getTime()) || !m.getText().equals(m.getText())) {
                                 m = temp;
                                 newMessage(m, m.getUserID() == thisUserId);
                                 for (int i = Lines.length - 1; i > 0; i--) {
-                                    System.out.println(Lines[i]);
                                     m = (new Gson()).fromJson(Lines[i], Message.class);
                                     newMessage(m, m.getUserID() == thisUserId);
                                 }
                                 LastTime = m.getTime();
-                                System.out.println(LastTime);
                             }
                         }
                     } catch (Exception e) {

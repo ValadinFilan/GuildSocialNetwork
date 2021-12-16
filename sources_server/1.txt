@@ -1,0 +1,5 @@
+{"Time":"12:38:34","UserID":2,"Text":"Hi dear"}
+{"Time":"12:38:45","UserID":2,"Text":"How are you"}
+{"Time":"12:40:03","UserID":1,"Text":"I`m fine"}
+{"Time":"12:40:27","UserID":1,"Text":"What about you?"}
+{"Time":"12:40:49","UserID":2,"Text":"I`m good"}
