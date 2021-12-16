@@ -69,12 +69,12 @@ public class DialogPanel extends JPanel {
                         if(!Objects.equals(data, "NULL")){
                             System.out.println(1);
                             String[] Lines = data.split("\n");
-                            System.out.println(Lines[0]);
+                            System.out.println(Lines[Lines.length - 1]);
                             Message temp = (new Gson()).fromJson(Lines[0], Message.class);
                             if(m.getUserID() != temp.getUserID() && !m.getTime().equals(temp.getTime()) && !m.getText().equals(m.getText())) {
                                 m = temp;
                                 newMessage(m, m.getUserID() == thisUserId);
-                                for (int i = 1; i < Lines.length; i++) {
+                                for (int i = Lines.length - 1; i >= 0; i--) {
                                     m = (new Gson()).fromJson(Lines[i], Message.class);
                                     newMessage(m, m.getUserID() == thisUserId);
                                 }
