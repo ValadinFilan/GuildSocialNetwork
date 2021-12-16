@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 
@@ -57,10 +58,13 @@ public class DialogPanel extends JPanel {
                 Message m = requestManager.LOAD_MSG(userName, dialogID);
                 Message lastMessage = m;
                 String LastTime = m.getTime();
+                ArrayList<Message> messages = new ArrayList<>();
                 while(m != null){
-                    newMessage(m, m.getUserID() == thisUserId);
+                    messages.add(m);
                     m = requestManager.LOAD_MSG(userName, dialogID);
                 }
+                for (int i = messages.size(); i > 0; i--)
+                    newMessage(messages.get(i), messages.get(i).getUserID() == thisUserId);
                 m = lastMessage;
                 while (true){
                     try {
