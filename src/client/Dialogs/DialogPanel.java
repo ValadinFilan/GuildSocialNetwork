@@ -41,7 +41,7 @@ public class DialogPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(!textField.getText().trim().equals("")) {
-                    Message message = new Message((new SimpleDateFormat("hh:mm")).format(new Date()), userId, textField.getText());
+                    Message message = new Message((new SimpleDateFormat("hh:mm:ss")).format(new Date()), userId, textField.getText());
                     //newMessage(message, true);
                     textField.setText("Enter message");
                     requestManager.SEND_MSG(message, dialogID);

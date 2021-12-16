@@ -12,10 +12,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class Server {
     private Scanner sc;
@@ -157,7 +155,11 @@ public class Server {
             }
             else if(Objects.equals(data[0], "FS_Check_SEND_MSG")){
                 logManager.sendLogToConsole(logManager.createNewLog("SEND_MSG", MessageType.SUCCESS));
-                //ansManager.Handle(reqManager.SEND_MSG(new Message("23:50", 1, "3 Topora"), 1));
+                Message m = new Message((new SimpleDateFormat("hh:mm:ss")).format(new Date()), 2, command.substring(command.indexOf(" ") + 1, command.length() - 1));
+                String M = (new Gson()).toJson(m);
+                String Request = "{\"Type\":\"SEND_MSG\"," + "\"Message\":" + M + ",\"DialogID\":" + 1 + "}";
+                //FS_Check_SEND_MSG Hi igor
+                ansManager.Handle(Request);
                 return 0;
             }
             else if(Objects.equals(data[0], "FS_Check_REG_USER")){

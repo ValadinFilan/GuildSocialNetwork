@@ -156,7 +156,7 @@ public class Server_FileSystem {
         while(!Result.equals(Last_msg_time)){
             while(((c=Stream.FIS.read())!= -1)&&(c != 123)){}
             Result = "{";
-            for (int i = 0; i < 13; i++){
+            for (int i = 0; i < 16; i++){
                 Result += (char)Stream.FIS.read();
             }
         }
@@ -189,7 +189,7 @@ public class Server_FileSystem {
                 Result += (char)c;
             }
             buf = "{";
-            for (int i = 0; i < 13; i++){
+            for (int i = 0; i < 16; i++){
                 buf += (char)Stream.read(); //ДОЛЯ А НЕ ПРОЦЕНТЫ
             }
             Result += buf;
@@ -200,7 +200,7 @@ public class Server_FileSystem {
                 Result += (char)c;
             }
             buf = "{";
-            for (int i = 0; i < 13; i++){
+            for (int i = 0; i < 16; i++){
                 buf += (char)Stream.read();
             }
             if(buf.equals(Last_msg_time))
