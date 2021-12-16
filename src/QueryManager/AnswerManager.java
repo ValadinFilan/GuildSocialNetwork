@@ -95,6 +95,6 @@ package QueryManager; import FileSystem.*; import com.google.gson.Gson; import j
                 return null;
             }
         }
-        return "ERROR, incorrect request";
+        return "ERROR, incorrect request ";
     }
 }
