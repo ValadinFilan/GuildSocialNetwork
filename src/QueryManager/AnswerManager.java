@@ -41,7 +41,6 @@ package QueryManager; import FileSystem.*; import com.google.gson.Gson; import j
                 int DialogID = 0;
                 try {
                     DialogID = Integer.valueOf(Request.substring(12, i - 1));
-
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
                 }
