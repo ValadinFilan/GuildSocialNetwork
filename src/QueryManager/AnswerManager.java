@@ -58,7 +58,7 @@ package QueryManager; import FileSystem.*; import com.google.gson.Gson; import j
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
                 }
-                Request = Request.substring(10, i - 12);
+                Request = Request.substring(10, i - 15);
                 Message M = gson.fromJson(Request, Message.class);
                 FS.WriteDialog(M, DialogID);
                 return null;

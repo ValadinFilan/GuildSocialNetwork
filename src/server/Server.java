@@ -155,7 +155,7 @@ public class Server {
             }
             else if(Objects.equals(data[0], "FS_Check_SEND_MSG")){
                 logManager.sendLogToConsole(logManager.createNewLog("SEND_MSG", MessageType.SUCCESS));
-                Message m = new Message((new SimpleDateFormat("hh:mm")).format(new Date()), 2, command.substring(command.indexOf(" ") + 1, command.length() - 1));
+                Message m = new Message((new SimpleDateFormat("hh:mm:ss")).format(new Date()), 2, command.substring(command.indexOf(" ") + 1, command.length() - 1));
                 String M = (new Gson()).toJson(m);
                 String Request = "{\"Type\":\"SEND_MSG\"," + "\"Message\":" + M + ",\"DialogID\":" + 1 + "}";
                 //FS_Check_SEND_MSG Hi igor
