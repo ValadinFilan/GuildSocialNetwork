@@ -2,6 +2,7 @@ package client.Dialogs;
 
 import FileSystem.Message;
 import QueryManager.RequestManager;
+import com.google.gson.Gson;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class DialogPanel extends JPanel {
     int dialogID = 1, userId = 1, thisUserId = 1;
@@ -40,7 +42,7 @@ public class DialogPanel extends JPanel {
                 if(!textField.getText().trim().equals("")) {
                     Message message = new Message((new SimpleDateFormat("hh:mm")).format(new Date()), userId, textField.getText());
                     newMessage(message, true);
-                    textField.setText("Введите сообщение");
+                    textField.setText("Enter message");
                     requestManager.SEND_MSG(message, dialogID);
                 }
             }
@@ -60,9 +62,12 @@ public class DialogPanel extends JPanel {
                 while (true){
                     try {
                         Thread.sleep(1000);
-                        m = requestManager.RENEW_MSG(userName, dialogID, m.getTime());
-                        while(m != null){
-                            newMessage(m, m.getUserID() == thisUserId);
+                        String data = requestManager.RENEW_MSG(userName, dialogID, m.getTime());
+                        if(!Objects.equals(data, "NULL")){
+                            for (String line : data.split("\n")) {
+                                m = (new Gson()).fromJson(data, Message.class);
+                                newMessage(m, m.getUserID() == thisUserId);
+                            }
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
