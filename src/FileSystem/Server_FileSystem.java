@@ -94,11 +94,9 @@ public class Server_FileSystem {
     }
 
     public Message ReadDialog(int ID) throws IOException {
-        System.out.println(2);
         int c;
         String Result = "";
         Stream_info Stream = null;
-        /*ВОТ ПОСЛЕ ЭТОЙ СТРОКИ БЬЕТ ОШИБКУ*/
         for (int i = 0; i < 4; i++) {
             if (Streams[i] == null) {
                 Streams[i] = new Stream_info(ID, new ReverseLineInputStream(new File("sources_server/" + ID + ".txt")));
@@ -110,20 +108,15 @@ public class Server_FileSystem {
                 break;
             }
         }
-        /*ДО ЭТОЙ СТРОКИ*/
-        System.out.println(3);
         if(Stream == null) {
             Streams[OldStream].FIS.close();
             Streams[OldStream] = new Stream_info(ID, new ReverseLineInputStream(new File("sources_server/" + ID + ".txt")));
             OldStream = (OldStream + 1) % 4;
         }
 
-        System.out.println(4);
         while(((c=Stream.FIS.read())!= -1)&&(c != 125)){
             Result += (char)c;
-            //System.out.print((char)c);
         }
-        System.out.println(5);
         if(c == -1){
             Stream.FIS.close();
             Stream.ID = 0;
@@ -131,13 +124,11 @@ public class Server_FileSystem {
         }
         else {
             Result += '}';
-            //System.out.print(Result);
             return gson.fromJson(Result, Message.class);
         }
     } //read last message from FileSystem.Dialog ID
 
     public Message ReadDialog(int ID, String Last_msg_time) throws IOException {
-        System.out.println(1);
         int c;
         String Result = "";
         Stream_info Stream = null;
@@ -177,13 +168,11 @@ public class Server_FileSystem {
         }
         else {
             Result += '}';
-            //System.out.print(Result);
             return gson.fromJson(Result, Message.class);
         }
     }  //read message before time = Last_msg_time from FileSystem.Dialog ID
 
     public String RenewDialog(int ID, String Last_msg_time) throws IOException {
-        System.out.println(Last_msg_time);
         int c = 0;
         String buf = "";
         String Result = "";
@@ -209,9 +198,7 @@ public class Server_FileSystem {
             }
             if(buf.equals(Last_msg_time))
                 Result += buf;
-            //System.out.print(buf);
         }
-        //System.out.print(Result);
         if(c == -1){
             Stream.close();
             return null;
@@ -260,7 +247,6 @@ public class Server_FileSystem {
         }
         else {
             Result += '}';
-            System.out.print(Result);
             return gson.fromJson(Result, Message.class);
         }
     } //read message, time = FileSystem.Message from FileSystem.Dialog ID
@@ -296,7 +282,6 @@ public class Server_FileSystem {
             if (c == -1) break;
         }
         FIS.close();
-        //System.out.println(Dialogs);
         if(Dialogs.equals(""))
             return null;
         else
