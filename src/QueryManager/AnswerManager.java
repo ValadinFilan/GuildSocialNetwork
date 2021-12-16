@@ -15,6 +15,7 @@ package QueryManager; import FileSystem.*; import com.google.gson.Gson; import j
         switch (Type) {
             case ("LOAD_MSG"):/* parse Json and made FS to read Message*/ {
                 i = Request.indexOf(',');
+                System.out.println(Request);
                 String Username = Request.substring(12, i - 1);
                 Request = Request.substring(i + 1);
                 i = Request.indexOf(',');
@@ -56,7 +57,7 @@ package QueryManager; import FileSystem.*; import com.google.gson.Gson; import j
                 } catch (NumberFormatException ex) {
                     ex.printStackTrace();
                 }
-                Request = Request.substring(10, i - 12);
+                Request = Request.substring(10, i - 15);
                 Message M = gson.fromJson(Request, Message.class);
                 FS.WriteDialog(M, DialogID);
                 return null;
