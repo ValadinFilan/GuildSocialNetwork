@@ -60,12 +60,10 @@ public class DialogPanel extends JPanel {
                 while (true){
                     try {
                         Thread.sleep(1000);
-                        /*
-                        Здесь будет запрос на обновление диалога
-                        m = requestManager.LOAD_MSG(userName, dialogID);
+                        m = requestManager.RENEW_MSG(userName, dialogID, m.getTime());
                         while(m != null){
                             newMessage(m, m.getUserID() == thisUserId);
-                        }*/
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

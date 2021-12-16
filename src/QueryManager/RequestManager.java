@@ -48,22 +48,25 @@ public class RequestManager {
         return M;
     }
 
-    public String RENEW_MSG(String Username, int DialogID, String MessageTime) {
+    public Message RENEW_MSG(String Username, int DialogID, String MessageTime) {
         String Request = "{\"Type\":\"RENEW_MSG\"," + "\"Username\":\"" +
-
                 Username + "\"," + "\"DialogID\":\"" + DialogID + "\"," + "\"MessageTime\":\"" + MessageTime + "\"}";
-        System.out.println(Request);
+        //System.out.println(Request);
+        Message M = null;
+        String data = null;
         if (!socket.isInputShutdown()) {
             try {
                 oos.writeUTF(Request);
                 oos.flush();
-                String data = ois.readUTF();
-                System.out.println(data == "NULL" ? "SUCCESS" : "ERROR");
+                data = ois.readUTF();
+                System.out.println(data.equals("NULL") ? "SUCCESS" : "ERROR");
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        return Request;
+
+        if (!data.equals("NULL")) M = gson.fromJson(data, Message.class);
+        return M;
     }
 
     public String SEND_MSG(Message Message, int DialogID) {
