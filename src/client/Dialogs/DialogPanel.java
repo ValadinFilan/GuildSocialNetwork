@@ -32,7 +32,7 @@ public class DialogPanel extends JPanel {
         add(pane, BorderLayout.CENTER);
         setBackground(Color.getHSBColor(.45F,.25f,.61f));
         JPanel footer = new JPanel();
-        JTextField textField = new JTextField("Введите сообщение");
+        JTextField textField = new JTextField("Enter text");
         textField.setSize(200, 50);
         JButton send = new JButton("Отправить");
         send.setBounds(0,0, 90, 40);
@@ -41,7 +41,7 @@ public class DialogPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if(!textField.getText().trim().equals("")) {
                     Message message = new Message((new SimpleDateFormat("hh:mm")).format(new Date()), userId, textField.getText());
-                    newMessage(message, true);
+                    //newMessage(message, true);
                     textField.setText("Enter message");
                     requestManager.SEND_MSG(message, dialogID);
                 }
