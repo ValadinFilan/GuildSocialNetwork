@@ -28,7 +28,7 @@ public class DialogPanel extends JPanel {
         setLayout(new BorderLayout());
         pane = new JScrollPane(p);
         pane.setMaximumSize(new Dimension(300, 200));
-        pane.getVerticalScrollBar().setValue(pane.getVerticalScrollBar().getModel().getMaximum());
+        //pane.getVerticalScrollBar().setValue(pane.getVerticalScrollBar().getModel().getMaximum());
         add(pane, BorderLayout.CENTER);
         setBackground(Color.getHSBColor(.45F,.25f,.61f));
         JPanel footer = new JPanel();
