@@ -178,6 +178,7 @@ public class Server_FileSystem {
     }  //read message before time = Last_msg_time from FileSystem.Dialog ID
 
     public String RenewDialog(int ID, String Last_msg_time) throws IOException {
+        System.out.println(Last_msg_time);
         int c = 0;
         String buf = "";
         String Result = "";
