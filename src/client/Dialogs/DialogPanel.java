@@ -55,7 +55,6 @@ public class DialogPanel extends JPanel {
             @Override
             public void run() {
                 Message m = requestManager.LOAD_MSG(userName, dialogID);
-                String LastTime = m.getTime();
                 Message lastMessage = m;
                 while(m != null){
                     newMessage(m, m.getUserID() == thisUserId);
@@ -63,6 +62,7 @@ public class DialogPanel extends JPanel {
                     m = requestManager.LOAD_MSG(userName, dialogID);
                 }
                 m = lastMessage;
+                String LastTime = m.getTime();
                 while (true){
                     try {
                         Thread.sleep(1000);
