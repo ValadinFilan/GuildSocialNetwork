@@ -191,7 +191,8 @@ public class Server_FileSystem {
             for (int i = 0; i < 13; i++){
                 buf += (char)Stream.read();
             }
-            Result += buf;
+            if(!buf.equals(Last_msg_time))
+                Result += buf;
             //System.out.print(buf);
         }
         while(buf.equals(Last_msg_time)){
