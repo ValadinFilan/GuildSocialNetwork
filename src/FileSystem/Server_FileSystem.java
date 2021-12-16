@@ -213,7 +213,7 @@ public class Server_FileSystem {
             return null;
         }
         else {
-            return Result;
+            return Result.substring(0, Result.lastIndexOf("{")).equals("") ? "NULL" : Result.substring(0, Result.lastIndexOf("{"));
         }
     }  //renew the dialogue by Last_msg_time;
 
