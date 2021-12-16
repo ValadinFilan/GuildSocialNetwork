@@ -55,6 +55,7 @@ public class DialogPanel extends JPanel {
             @Override
             public void run() {
                 Message m = requestManager.LOAD_MSG(userName, dialogID);
+                String LastTime = m.getTime();
                 while(m != null){
                     newMessage(m, m.getUserID() == thisUserId);
                     m = requestManager.LOAD_MSG(userName, dialogID);
@@ -62,9 +63,12 @@ public class DialogPanel extends JPanel {
                 while (true){
                     try {
                         Thread.sleep(1000);
-                        String data = requestManager.RENEW_MSG(userName, dialogID, m.getTime());
+                        String data = requestManager.RENEW_MSG(userName, dialogID, LastTime);
                         if(!Objects.equals(data, "NULL")){
-                            for (String line : data.split("\n")) {
+                            String[] Lines = data.split("\n");
+                            m = (new Gson()).fromJson(Lines[0], Message.class);
+                            newMessage(m, m.getUserID() == thisUserId);
+                            for (int i = 1; i < Lines.length; i++) {
                                 m = (new Gson()).fromJson(data, Message.class);
                                 newMessage(m, m.getUserID() == thisUserId);
                             }

@@ -13,7 +13,7 @@ public class RequestManager {
 
     public RequestManager(DialogPanel panel) {
         try {
-            socket = new Socket("25.62.187.132", 62733);
+            socket = new Socket("25.62.187.132", 61944);
             oos = new DataOutputStream(socket.getOutputStream());
             ois = new DataInputStream(socket.getInputStream());
         } catch (IOException e) {
@@ -51,7 +51,7 @@ public class RequestManager {
     public String RENEW_MSG(String Username, int DialogID, String MessageTime) {
         String Request = "{\"Type\":\"RENEW_MSG\"," + "\"Username\":\"" +
                 Username + "\"," + "\"DialogID\":\"" + DialogID + "\"," + "\"MessageTime\":\"" + MessageTime + "\"}";
-//System.out.println(Request);
+        //System.out.println(Request);
         Message M = null;
         String data = null;
         if (!socket.isInputShutdown()) {
